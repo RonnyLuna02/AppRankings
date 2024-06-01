@@ -19,7 +19,6 @@ app.get('/', (req, res) => {
 
 app.get('/Thaeminen/:id', (req, res) => {
     const id = req.params.id
-    console.log(typeof (id) + " id: " + id)
     readLogsThaemineNormal((err, rows) => {
         if (err) {
             res.status(500).send(err.message)
@@ -27,7 +26,7 @@ app.get('/Thaeminen/:id', (req, res) => {
             let names = removeDuplicates(rows);
             let players = [];
             let player = {};
-            console.log(typeof (id) + " else id: " + id)
+
             switch (id) {
                 case '1':
                     names.forEach(element => {
@@ -81,7 +80,7 @@ app.get('/Thaeminen/:id', (req, res) => {
                         const arrUniq = [...new Map(rows.map(v => [JSON.stringify([v.totalDmgTaken, v.name]), v])).values()]
                         let resultado = arrUniq.filter(function (log) {
                             return (log.name === element) && ((log.nameBoss === 'Thaemine the Lightqueller') || (log.nameBoss === 'Dark Greatsword'))
-                                && (log.totalDmgDealt > 14047443219)
+                                && (log.totalDmgDealt > 14047443219) /*&& (log.gearLvl < 1620)*/
                         });
                         if (Object.keys(resultado).length > 0) {
                             player.name = resultado[0].name;
