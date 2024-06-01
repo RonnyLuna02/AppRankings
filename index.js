@@ -4,11 +4,18 @@ const multer = require('multer');
 const fs = require('node:fs');
 const dbEncounter = require('./database');
 const { type } = require('node:os');
+const cors = require('cors');
 
 const upload = multer({ dest: 'logs/' });
 const app = express();
 app.disable('x-powered-by');
 app.use(express.json());
+
+app.use(cors());
+
+app.get('/', (req, res) => {
+    res.sendFile('index.html', { root: __dirname })
+});
 
 app.get('/Thaeminen', (req, res) => {
     readLogsThaemineNormal((err, rows) => {
