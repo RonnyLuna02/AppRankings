@@ -17,37 +17,92 @@ app.get('/', (req, res) => {
     res.sendFile('index.html', { root: __dirname })
 });
 
-app.get('/Thaeminen', (req, res) => {
+app.get('/Thaeminen/:id', (req, res) => {
+    const id = req.params.id
+    console.log(typeof (id) + " id: " + id)
     readLogsThaemineNormal((err, rows) => {
         if (err) {
             res.status(500).send(err.message)
         } else {
             let names = removeDuplicates(rows);
-            //console.log(names)
             let players = [];
             let player = {};
-            let allPlayers = [];
-            let nume = 0;
-            //console.log(removeDuplicates(rows));
-            names.forEach(element => {
-                player = {};
-                const arrUniq = [...new Map(rows.map(v => [JSON.stringify([v.totalDmgTaken, v.name]), v])).values()]
-                let resultado = arrUniq.filter(function (log) { return (log.name === element) && ((log.nameBoss === 'Thaemine the Lightqueller') || (log.nameBoss === 'Dark Greatsword')) && (log.totalDmgDealt > 14047443219) });
-                if (Object.keys(resultado).length > 0) {
-                    player.name = resultado[0].name;
-                    player.class = resultado[0].class;
-                    player.itemLvl = Math.max(...resultado.map(a => a.gearLvl));
-                    const dpsLogs = resultado.map(a => a.dps);
-                    const clearsLogs = resultado.map(a => a.cleared);
-                    player.maxDps = Math.max(...resultado.map(a => a.dps));
-                    player.minDps = Math.min(...resultado.map(a => a.dps));
-                    player.averageDps = Math.trunc(dpsLogs.reduce((a, b) => a + b) / Object.keys(dpsLogs).length);
-                    player.tries = Object.keys(dpsLogs).length;
-                    player.clears = resultado.reduce((a, b) => a + b.cleared, 0);
-                    players.push(player)
-                }
-            });
-            res.status(200).json(players);
+            console.log(typeof (id) + " else id: " + id)
+            switch (id) {
+                case '1':
+                    names.forEach(element => {
+                        player = {};
+                        const arrUniq = [...new Map(rows.map(v => [JSON.stringify([v.totalDmgTaken, v.name]), v])).values()]
+                        let resultado = arrUniq.filter(function (log) { return (log.name === element) && (log.nameBoss === 'Killineza the Dark Worshipper') && (log.totalDmgDealt > 6992238864) });
+                        if (Object.keys(resultado).length > 0) {
+                            player.name = resultado[0].name;
+                            player.class = resultado[0].class;
+                            player.itemLvl = Math.max(...resultado.map(a => a.gearLvl));
+                            const dpsLogs = resultado.map(a => a.dps);
+                            const clearsLogs = resultado.map(a => a.cleared);
+                            player.maxDps = Math.max(...resultado.map(a => a.dps));
+                            player.minDps = Math.min(...resultado.map(a => a.dps));
+                            player.averageDps = Math.trunc(dpsLogs.reduce((a, b) => a + b) / Object.keys(dpsLogs).length);
+                            player.tries = Object.keys(dpsLogs).length;
+                            player.clears = resultado.reduce((a, b) => a + b.cleared, 0);
+                            players.push(player)
+
+                        }
+                    });
+                    res.status(200).json(players);
+                    break;
+                case '2':
+                    names.forEach(element => {
+                        player = {};
+                        const arrUniq = [...new Map(rows.map(v => [JSON.stringify([v.totalDmgTaken, v.name]), v])).values()]
+                        let resultado = arrUniq.filter(function (log) {
+                            return (log.name === element) && ((log.nameBoss === 'Valinak, Knight of Darkness') || (log.nameBoss === 'Valinak, Taboo Usurper')
+                                || (log.nameBoss === 'Valinak, Herald of the End')) && (log.totalDmgDealt > 8757955749)
+                        });
+                        if (Object.keys(resultado).length > 0) {
+                            player.name = resultado[0].name;
+                            player.class = resultado[0].class;
+                            player.itemLvl = Math.max(...resultado.map(a => a.gearLvl));
+                            const dpsLogs = resultado.map(a => a.dps);
+                            const clearsLogs = resultado.map(a => a.cleared);
+                            player.maxDps = Math.max(...resultado.map(a => a.dps));
+                            player.minDps = Math.min(...resultado.map(a => a.dps));
+                            player.averageDps = Math.trunc(dpsLogs.reduce((a, b) => a + b) / Object.keys(dpsLogs).length);
+                            player.tries = Object.keys(dpsLogs).length;
+                            player.clears = resultado.reduce((a, b) => a + b.cleared, 0);
+                            players.push(player)
+                        }
+                    });
+                    res.status(200).json(players);
+                    break;
+                case '3':
+                    names.forEach(element => {
+                        player = {};
+                        const arrUniq = [...new Map(rows.map(v => [JSON.stringify([v.totalDmgTaken, v.name]), v])).values()]
+                        let resultado = arrUniq.filter(function (log) {
+                            return (log.name === element) && ((log.nameBoss === 'Thaemine the Lightqueller') || (log.nameBoss === 'Dark Greatsword'))
+                                && (log.totalDmgDealt > 14047443219)
+                        });
+                        if (Object.keys(resultado).length > 0) {
+                            player.name = resultado[0].name;
+                            player.class = resultado[0].class;
+                            player.itemLvl = Math.max(...resultado.map(a => a.gearLvl));
+                            const dpsLogs = resultado.map(a => a.dps);
+                            const clearsLogs = resultado.map(a => a.cleared);
+                            player.maxDps = Math.max(...resultado.map(a => a.dps));
+                            player.minDps = Math.min(...resultado.map(a => a.dps));
+                            player.averageDps = Math.trunc(dpsLogs.reduce((a, b) => a + b) / Object.keys(dpsLogs).length);
+                            player.tries = Object.keys(dpsLogs).length;
+                            player.clears = resultado.reduce((a, b) => a + b.cleared, 0);
+                            players.push(player)
+                        }
+                    });
+                    res.status(200).json(players);
+                    break;
+                default:
+                    res.status(200).json(players);
+                    break;
+            }
         }
     })
 });
