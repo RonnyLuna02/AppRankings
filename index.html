@@ -53,8 +53,8 @@
               </div>
             </div>
           </div>
-          <div class="col-6">
-
+          <div class="col">
+              
           </div>
         </div>
       </div>
@@ -63,7 +63,29 @@
     <div class="row">
       <div class="col-2"></div>
       <div class="col">
-        <input type="text" id="search" class="form-control mb-2 mt-2" style="display:none">
+        <div class="row mt-2 mb-2">
+          <div class="col-2"><input type="text" id="search" class="form-control" placeholder="Search Name" style="display:none"></div>
+          <div class="col-2"><input type="text" id="searchItemLvl" class="form-control" placeholder="Max item Lvl" style="display:none"></div>
+          <div class="col-2"></div>
+          <div class="col-6 d-flex justify-content-end">
+            <span class="input-group-text bg-secondary text-white me-1">Min Damage Dealt:</span>
+              <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                <input type="radio" class="btn-check" name="btnDmgDealt" id="btnDmgDealt1" autocomplete="off"
+                  checked>
+                <label class="btn btn-outline-light" for="btnDmgDealt1">0%</label>
+
+                <input type="radio" class="btn-check" name="btnDmgDealt" id="btnDmgDealt2" autocomplete="off">
+                <label class="btn btn-outline-light" for="btnDmgDealt2">20%</label>
+
+                <input type="radio" class="btn-check" name="btnDmgDealt" id="btnDmgDealt3" autocomplete="off">
+                <label class="btn btn-outline-light" for="btnDmgDealt3">50%</label>
+                <input type="radio" class="btn-check" name="btnDmgDealt" id="btnDmgDealt4" autocomplete="off">
+                <label class="btn btn-outline-light" for="btnDmgDealt4">80%</label>
+                <input type="radio" class="btn-check" name="btnDmgDealt" id="btnDmgDealt5" autocomplete="off">
+                <label class="btn btn-outline-light" for="btnDmgDealt5">100%</label>
+              </div>
+          </div>
+        </div>
         <table id="players" class="table table-striped table-dark">
           <thead>
             <tr>

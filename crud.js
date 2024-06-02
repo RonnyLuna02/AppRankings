@@ -135,8 +135,13 @@ const readEncounters = (db, callback) => {
     db.all(sql, [], callback)
 };
 
-const readLogsThaemineNormal = (difficulty, callback) => {
+const readLogsThaemine = (difficulty, callback) => {
     const sql = `SELECT * FROM log WHERE localPlayer GLOB '*[^0-9]*' AND difficulty = '${difficulty}' AND (nameBoss = 'Killineza the Dark Worshipper' OR nameBoss = 'Valinak, Herald of the End' OR nameBoss = 'Valinak, Taboo Usurper' OR nameBoss = 'Valinak, Herald of the End' OR nameBoss = 'Thaemine the Lightqueller' OR nameBoss = 'Dark Greatsword')`;
+    appDb.all(sql, [], callback)
+};
+
+const readLogsAkkan = (difficulty, callback) => {
+    const sql = `SELECT * FROM log WHERE localPlayer GLOB '*[^0-9]*' AND gearLvl > 0 AND difficulty = '${difficulty}' AND (nameBoss = 'Lord of Degradation Akkan' OR nameBoss = 'Evolved Maurug' OR nameBoss = 'Griefbringer Maurug' OR nameBoss = 'Plague Legion Commander Akkan' OR nameBoss = 'Lord of Kartheon Akkan')`;
     appDb.all(sql, [], callback)
 };
 
@@ -150,4 +155,4 @@ const deleteItem = (id, callback) => {
     appDb.run(sql, id, callback)
 };
 
-module.exports = { saveAllLogs, readLogsThaemineNormal, updateItem, deleteItem };
+module.exports = { saveAllLogs, readLogsThaemine, readLogsAkkan, updateItem, deleteItem };
