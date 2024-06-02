@@ -135,8 +135,8 @@ const readEncounters = (db, callback) => {
     db.all(sql, [], callback)
 };
 
-const readLogsThaemineNormal = (callback) => {
-    const sql = `SELECT * FROM log WHERE localPlayer GLOB '*[^0-9]*' AND difficulty = 'Normal' AND (nameBoss = 'Killineza the Dark Worshipper' OR nameBoss = 'Valinak, Herald of the End' OR nameBoss = 'Valinak, Taboo Usurper' OR nameBoss = 'Valinak, Herald of the End' OR nameBoss = 'Thaemine the Lightqueller' OR nameBoss = 'Dark Greatsword')`;
+const readLogsThaemineNormal = (difficulty, callback) => {
+    const sql = `SELECT * FROM log WHERE localPlayer GLOB '*[^0-9]*' AND difficulty = '${difficulty}' AND (nameBoss = 'Killineza the Dark Worshipper' OR nameBoss = 'Valinak, Herald of the End' OR nameBoss = 'Valinak, Taboo Usurper' OR nameBoss = 'Valinak, Herald of the End' OR nameBoss = 'Thaemine the Lightqueller' OR nameBoss = 'Dark Greatsword')`;
     appDb.all(sql, [], callback)
 };
 

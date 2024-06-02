@@ -17,9 +17,10 @@ app.get('/', (req, res) => {
     res.sendFile('index.html', { root: __dirname })
 });
 
-app.get('/Thaeminen/:id', (req, res) => {
-    const id = req.params.id
-    readLogsThaemineNormal((err, rows) => {
+app.get('/Thaeminen/:difficulty/:id', (req, res) => {
+    const id = req.params.id;
+    const raidDifficulty = req.params.difficulty;
+    readLogsThaemineNormal(raidDifficulty, (err, rows) => {
         if (err) {
             res.status(500).send(err.message)
         } else {
@@ -80,7 +81,7 @@ app.get('/Thaeminen/:id', (req, res) => {
                         const arrUniq = [...new Map(rows.map(v => [JSON.stringify([v.totalDmgTaken, v.name]), v])).values()]
                         let resultado = arrUniq.filter(function (log) {
                             return (log.name === element) && ((log.nameBoss === 'Thaemine the Lightqueller') || (log.nameBoss === 'Dark Greatsword'))
-                                && (log.totalDmgDealt > 14047443219) /*&& (log.gearLvl < 1620)*/
+                            /*&& (log.totalDmgDealt > 14047443219) && (log.gearLvl < 1620)*/
                         });
                         if (Object.keys(resultado).length > 0) {
                             player.name = resultado[0].name;
@@ -105,6 +106,25 @@ app.get('/Thaeminen/:id', (req, res) => {
         }
     })
 });
+
+app.get('/code.js', (req, res) => {
+    res.sendFile(__dirname + '/js/code.js')
+})
+app.get('/style.css', (req, res) => {
+    res.sendFile(__dirname + '/static/style.css')
+})
+
+app.get('/bg-beatrice.jpg', (req, res) => {
+    res.sendFile(__dirname + '/bg-beatrice.jpg')
+})
+
+app.get('/thaemine.jpg', (req, res) => {
+    res.sendFile(__dirname + '/thaemine.jpg')
+})
+
+app.get('/akkan.jpg', (req, res) => {
+    res.sendFile(__dirname + '/akkan.jpg')
+})
 
 app.post('/logs', upload.single('logs'), (req, res) => {
     saveAllLogs(req.file)
@@ -139,7 +159,7 @@ app.listen(3000, () => {
 function removeDuplicates(arr) {
     let unique = [];
     arr.forEach(element => {
-        if (!unique.includes(element.name) && (element.entityType === 'PLAYER') && ((element.nameBoss === 'Thaemine the Lightqueller') || (element.nameBoss === 'Dark Greatsword'))) {
+        if (!unique.includes(element.name) && (element.entityType === 'PLAYER')) {
             unique.push(element.name);
         }
     });
