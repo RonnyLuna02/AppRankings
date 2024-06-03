@@ -13,13 +13,12 @@
 <body
   style="background-image: url(/bg-beatrice.jpg); background-size: 100%; bottom:0; background-position:fixed; background-repeat: no-repeat; background-attachment: fixed;">
   <div class="container-fluid">
-    <div class="row mt-5">
+    <div class="row mt-2 mb-2" style="padding-left: 1rem; padding-right: 1rem;">
       <div class="col"></div>
-      <div class="col-8" style="padding-left: 1.5rem; padding-right: 1.5rem;">
-        <div class="row"
-          style="background-image: url(/voldis.png); background-size: cover; border-radius: 0.5rem; background-position: center; background-position-y: 40%;">
+      <div class="col-8" style="background-image: url(/voldis.png); background-size: cover; border-radius: 0.5rem; background-position: center; background-position-y: 40%;">
+        <div class="row">
           <div class="col-6">
-            <div class="row mb-2">
+            <div class="row mt-2">
               <div class="btn-group mb-3" role="group" aria-label="Basic radio toggle button group">
                 <input type="radio" class="btn-check" name="btnRaid" id="btnAkkan" autocomplete="off">
                 <label class="btn btn-outline-light" for="btnAkkan">Akkan</label>
@@ -43,15 +42,18 @@
               </div>
               <div class="col-6">
                 <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                  <input type="radio" class="btn-check" name="btnAkkanGate" id="btnAkkanGate1" autocomplete="off"
+                  <input type="radio" class="btn-check" name="btnGate" id="btnGate1" autocomplete="off"
                     checked>
-                  <label class="btn btn-outline-light" for="btnAkkanGate1">G1</label>
+                  <label class="btn btn-outline-light" for="btnGate1">G1</label>
 
-                  <input type="radio" class="btn-check" name="btnAkkanGate" id="btnAkkanGate2" autocomplete="off">
-                  <label class="btn btn-outline-light" for="btnAkkanGate2">G2</label>
+                  <input type="radio" class="btn-check" name="btnGate" id="btnGate2" autocomplete="off">
+                  <label class="btn btn-outline-light" for="btnGate2">G2</label>
 
-                  <input type="radio" class="btn-check" name="btnAkkanGate" id="btnAkkanGate3" autocomplete="off">
-                  <label class="btn btn-outline-light" for="btnAkkanGate3">G3</label>
+                  <input type="radio" class="btn-check" name="btnGate" id="btnGate3" autocomplete="off">
+                  <label class="btn btn-outline-light" for="btnGate3">G3</label>
+
+                  <input type="radio" class="btn-check" name="btnGate" id="btnGate4" autocomplete="off" style="display: none;">
+                  <label class="btn btn-outline-light" for="btnGate4" style="display: none;">G4</label>
                 </div>
               </div>
             </div>
@@ -60,16 +62,10 @@
               
           </div>
         </div>
-      </div>
-      <div class="col"></div>
-    </div>
-    <div class="row">
-      <div class="col-2"></div>
-      <div class="col">
         <div class="row mt-2 mb-2">
           <div class="col-2"><input type="text" id="search" class="form-control" placeholder="Search Name" style="display:none"></div>
           <div class="col-2"><input type="number" min="1580" max="1680" id="searchItemLvl" class="form-control" placeholder="Max item Lvl" style="display:none"></div>
-          <div class="col-2"></div>
+          <div class="col-2"><input type="text" id="searchClass" class="form-control" placeholder="Search Class" style="display:none"></div>
           <div class="col-6 d-flex justify-content-end">
             <span class="input-group-text bg-secondary text-white me-1">Min Damage Dealt:</span>
               <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
@@ -89,6 +85,12 @@
               </div>
           </div>
         </div>
+      </div>
+      <div class="col"></div>
+    </div>
+    <div class="row">
+      <div class="col-2"></div>
+      <div class="col">
         <table id="players" class="table table-striped table-dark">
           <thead>
             <tr>

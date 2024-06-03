@@ -136,18 +136,19 @@ app.get('/:raid/:difficulty/:id/:dmg', (req, res) => {
                                 player.clears = resultado.reduce((a, b) => a + b.cleared, 0);
                                 players.push(player)
 
-                        }
-                    });
-                    res.status(200).json(players);
-                    break;
+                            }
+                        });
+                        res.status(200).json(players);
+                        break;
                     case '2':
                         names.forEach(element => {
                             player = {};
                             const arrUniq = [...new Map(rows.map(v => [JSON.stringify([v.totalDmgTaken, v.name]), v])).values()]
                             let resultado = arrUniq.filter(function (log) {
                                 return (log.name === element) && ((log.nameBoss === 'Valinak, Knight of Darkness') || (log.nameBoss === 'Valinak, Taboo Usurper')
-                                    || (log.nameBoss === 'Valinak, Herald of the End')) && (log.totalDmgDealt > 8757955749)
+                                    || (log.nameBoss === 'Valinak, Herald of the End')) && (log.totalDmgDealt > 8757955749) && tryPlayersCount(log)
                             });
+
                             if (Object.keys(resultado).length > 0) {
                                 player.name = resultado[0].name;
                                 player.class = resultado[0].class;
@@ -226,6 +227,21 @@ app.delete('/items/:id', (req, res) => {
 app.listen(3000, () => {
     console.log("Server is Running")
 });
+
+function tryPlayersCount(obj) {
+
+    if (Object.hasOwn(obj, 'tryPlayers')) {
+        let objeto = JSON.parse(obj.tryPlayers)
+        var vals = Object.keys(objeto).map(function (key) {
+            return objeto[key];
+        });
+        const merge3 = vals.flat(1);
+        console.log(merge3.length);
+        return (merge3.length === 4) || (merge3.length === 8)
+    } else {
+        return false;
+    }
+};
 
 function removeDuplicates(arr) {
     let unique = [];
