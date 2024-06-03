@@ -10,8 +10,9 @@ const upload = multer({ dest: 'logs/' });
 const app = express();
 app.disable('x-powered-by');
 app.use(express.json());
-
 app.use(cors());
+
+app.use(express.static(__dirname + '/public'))
 
 app.get('/', (req, res) => {
     res.sendFile('index.html', { root: __dirname })
@@ -135,10 +136,10 @@ app.get('/:raid/:difficulty/:id/:dmg', (req, res) => {
                                 player.clears = resultado.reduce((a, b) => a + b.cleared, 0);
                                 players.push(player)
 
-                            }
-                        });
-                        res.status(200).json(players);
-                        break;
+                        }
+                    });
+                    res.status(200).json(players);
+                    break;
                     case '2':
                         names.forEach(element => {
                             player = {};
@@ -194,31 +195,7 @@ app.get('/:raid/:difficulty/:id/:dmg', (req, res) => {
             }
         })
     }
-
 });
-
-app.get('/code.js', (req, res) => {
-    res.sendFile(__dirname + '/js/code.js')
-})
-app.get('/style.css', (req, res) => {
-    res.sendFile(__dirname + '/static/style.css')
-})
-
-app.get('/bg-beatrice.jpg', (req, res) => {
-    res.sendFile(__dirname + '/bg-beatrice.jpg')
-})
-
-app.get('/thaemine.jpg', (req, res) => {
-    res.sendFile(__dirname + '/thaemine.jpg')
-})
-
-app.get('/voldis.png', (req, res) => {
-    res.sendFile(__dirname + '/voldis.png')
-})
-
-app.get('/akkan.jpg', (req, res) => {
-    res.sendFile(__dirname + '/akkan.jpg')
-})
 
 app.post('/logs', upload.single('logs'), (req, res) => {
     saveAllLogs(req.file)
