@@ -46,35 +46,68 @@ iLvlInput.addEventListener('keyup', function (event) {
 
 const mostrar = (players) => {
     let id = 0;
-    players.sort((a, b) => b.maxDps - a.maxDps);
-    players.forEach(player => {
-        id++
-        resultados += `<tr>
-                    <td>${id}</td>
-                    <td id="name">${player.name}</td>
-                    <td id="class">${player.class}</td>
-                    <td id="itemLvl">${player.itemLvl}</td>
-                    <td>${player.maxDps}</td>
-                    <td>${player.minDps}</td>
-                    <td>${player.averageDps}</td>
-                    <td>${player.tries}</td>
-                    <td>${player.clears}</td>
-                </tr>
-                `
-    })
-    contenedor.innerHTML = resultados;
-    searchInput.style.display = 'block';
-    iLvlInput.style.display = 'block';
-    searchClass.style.display = 'block';
-    rows = document.querySelectorAll('tbody tr');
+    if(players != ''){
+        players.sort((a, b) => b.maxDps - a.maxDps);
+        players.forEach(player => {
+            id++
+            resultados += `<tr>
+                        <td>${id}</td>
+                        <td id="name">${player.name}</td>
+                        <td id="class">${player.class}</td>
+                        <td id="itemLvl">${player.itemLvl}</td>
+                        <td>${player.maxDps}</td>
+                        <td>${player.minDps}</td>
+                        <td>${player.averageDps}</td>
+                        <td>${player.tries}</td>
+                        <td>${player.clears}</td>
+                    </tr>
+                    `
+        })
+        contenedor.innerHTML = resultados;
+        searchInput.style.display = 'block';
+        iLvlInput.style.display = 'block';
+        searchClass.style.display = 'block';
+        rows = document.querySelectorAll('tbody tr');
+    }
+    else{
+        contenedor.innerHTML = '<div></div>';
+    }
 };
-let id = '/2';
-let raid = 'thaemine';
-let difficulty = '/Normal';
+
+let id = '/1';
+let raid = 'akkan';
+let difficulty = '/Hard';
 let dmg = '/0';
+
 fetch(url + raid + difficulty + id + dmg)
     .then(response => response.json())
     .then(data => mostrar(data))
     .catch(error => console.log(error));
 
-
+function handleRadio(radio, type){
+    if(type === 'raid'){
+        raid = radio.value;
+        if(raid === 'akkan'){
+            document.getElementById('banner').style.backgroundImage="url(/akkan.jpg)";
+        }
+        else if(raid === 'voldis'){
+            document.getElementById('banner').style.backgroundImage="url(/voldis.png)";
+        }
+        else if(raid === 'thaemine'){
+            document.getElementById('banner').style.backgroundImage="url(/thaemine.jpg)";
+        }
+    }
+    else if(type === 'difficulty'){
+        difficulty = radio.value || '/Normal';
+    }
+    else if(type === 'gate'){
+        id = radio.value || '/1';
+    }
+    else if(type === 'dmg'){
+        dmg = radio.value || '/0';
+    }
+    fetch(url + raid + difficulty + id + dmg)
+        .then(response => response.json())
+        .then(data => mostrar(data))
+        .catch(error => console.log(error));
+}
