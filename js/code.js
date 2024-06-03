@@ -14,11 +14,24 @@ searchInput.addEventListener('keyup', function (event) {
 });
 
 iLvlInput.addEventListener('keyup', function (event) {
-    const q = event.target.value.toLowerCase();
-    rows.forEach((row) => {
-        console.log(row.querySelector('td').textContent)
-        row.querySelector('#itemLvl').textContent.toLowerCase().startsWith(q) ? (row.style.display = 'table-row') : (row.style.display = 'none')
-    });
+    const q = event.target.value;
+    debugger
+    if (q.length === 4) {
+        rows.forEach((row) => {
+            console.log(row.querySelector('td').textContent)
+            if (row.querySelector('#itemLvl').textContent > q) {
+                row.style.display = 'none'
+                debugger
+            } else {
+                row.style.display = 'table-row'
+            }
+        });
+    } else {
+        rows.forEach((row) => {
+            row.style.display = 'table-row'
+        });
+    }
+    debugger
 });
 
 const mostrar = (players) => {
@@ -43,9 +56,8 @@ const mostrar = (players) => {
     searchInput.style.display = 'block';
     iLvlInput.style.display = 'block';
     rows = document.querySelectorAll('tbody tr');
-
 };
-let id = '/3';
+let id = '/1';
 let raid = 'akkan';
 let difficulty = '/Normal';
 let dmg = '/0';

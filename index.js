@@ -36,7 +36,7 @@ app.get('/:raid/:difficulty/:id/:dmg', (req, res) => {
                         names.forEach(element => {
                             player = {};
                             const arrUniq = [...new Map(rows.map(v => [JSON.stringify([v.totalDmgTaken, v.name]), v])).values()]
-                            let resultado = arrUniq.filter(function (log) { return (log.name === element) && ((log.nameBoss === 'Evolved Maurug') || (log.nameBoss === 'Griefbringer Maurug')) /*&& (log.totalDmgDealt > 6992238864)*/ });
+                            let resultado = arrUniq.filter(function (log) { return (log.name === element) && ((log.nameBoss === 'Evolved Maurug') || (log.nameBoss === 'Griefbringer Maurug')) && (log.totalDmgDealt > 3514318700) });
                             if (Object.keys(resultado).length > 0) {
                                 player.name = resultado[0].name;
                                 player.class = resultado[0].class;
@@ -210,6 +210,10 @@ app.get('/bg-beatrice.jpg', (req, res) => {
 
 app.get('/thaemine.jpg', (req, res) => {
     res.sendFile(__dirname + '/thaemine.jpg')
+})
+
+app.get('/voldis.png', (req, res) => {
+    res.sendFile(__dirname + '/voldis.png')
 })
 
 app.get('/akkan.jpg', (req, res) => {
