@@ -10,7 +10,6 @@ const upload = multer({ dest: 'logs/' });
 const app = express();
 app.disable('x-powered-by');
 app.use(express.json());
-
 app.use(cors());
 
 app.use(express.static(__dirname + '/public'))
