@@ -74,24 +74,16 @@ var hard = document.getElementById('difficulty2');
 var gate4 = document.getElementById('gate4');
 var banner = document.getElementById('banner');
 let id = '3';
-var hard = document.getElementById('difficulty2');
-var gate4 = document.getElementById('gate4');
-var banner = document.getElementById('banner');
-let id = '3';
 let raid = 'akkan';
 let difficulty = 'Hard';
 let dmg = '0';
-let difficulty = 'Hard';
-let dmg = '0';
+
 
 fetch(url + raid + '/' + difficulty + '/' + id + '/' + dmg)
         .then(response => response.json())
         .then(data => mostrar(data))
         .catch(error => console.log(error));
-fetch(url + raid + '/' + difficulty + '/' + id + '/' + dmg)
-        .then(response => response.json())
-        .then(data => mostrar(data))
-        .catch(error => console.log(error));
+
 
 function handleRadio(radio, type){
     if(type === 'raid'){    
