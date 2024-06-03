@@ -10,8 +10,9 @@ const upload = multer({ dest: 'logs/' });
 const app = express();
 app.disable('x-powered-by');
 app.use(express.json());
-
 app.use(cors());
+
+app.use(express.static(__dirname + '/public'))
 
 app.get('/', (req, res) => {
     res.sendFile('index.html', { root: __dirname })
@@ -197,6 +198,7 @@ app.get('/:raid/:difficulty/:id/:dmg', (req, res) => {
 
 });
 
+<<<<<<< HEAD
 app.get('/code.js', (req, res) => {
     res.sendFile(__dirname + '/js/code.js')
 })
@@ -220,6 +222,8 @@ app.get('/akkan.jpg', (req, res) => {
     res.sendFile(__dirname + '/akkan.jpg')
 })
 
+=======
+>>>>>>> 294664d (public structure)
 app.post('/logs', upload.single('logs'), (req, res) => {
     saveAllLogs(req.file)
     res.send('DB ingresada')
