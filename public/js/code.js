@@ -3,8 +3,39 @@ const contenedor = document.querySelector('tbody')
 let searchInput = document.getElementById('search')
 let searchClass = document.getElementById('searchClass')
 let iLvlInput = document.getElementById('searchItemLvl')
+let btns = document.querySelectorAll('input');
 var rows;
 let resultados = '';
+
+function getLogs() {
+    let raid = document.querySelector('input[name="btnRaid"]:checked').value;
+    let difficulty = document.querySelector('input[name="btnDifficulty"]:checked').value;
+    let id = document.querySelector('input[name="btnGate"]:checked').value;
+    let dmg = document.querySelector('input[name="btnDmgDealt"]:checked').value;
+    let btns = document.querySelectorAll('input');
+    let gate4 = document.getElementsByName('gate4');
+    let hardest = document.getElementsByName('hardest');
+
+    if (raid === 'voldis') {
+        gate4[0].style.display = "block";
+    } else {
+        gate4[0].style.display = "none";
+    }
+    if (raid === 'thaemine') {
+        hardest[0].style.display = "none";
+    } else {
+        hardest[0].style.display = "block";
+    }
+    btns.forEach((btn) => { btn.disabled = true });
+    resultados = '';
+    contenedor.innerHTML = resultados;
+    debugger
+    fetch(url + raid + '/' + difficulty + '/' + id + '/' + dmg)
+        .then(response => response.json())
+        .then(data => mostrar(data))
+        .catch(error => console.log(error));
+}
+
 
 searchInput.addEventListener('keyup', function (event) {
     const q = event.target.value.toLowerCase();
@@ -63,18 +94,10 @@ const mostrar = (players) => {
                 `
     })
     contenedor.innerHTML = resultados;
+    btns.forEach((btn) => { btn.disabled = false });
     searchInput.style.display = 'block';
     iLvlInput.style.display = 'block';
     searchClass.style.display = 'block';
     rows = document.querySelectorAll('tbody tr');
 };
-let id = '/2';
-let raid = 'thaemine';
-let difficulty = '/Normal';
-let dmg = '/0';
-fetch(url + raid + difficulty + id + dmg)
-    .then(response => response.json())
-    .then(data => mostrar(data))
-    .catch(error => console.log(error));
-
 

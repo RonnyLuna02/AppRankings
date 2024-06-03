@@ -136,23 +136,19 @@ const readEncounters = (db, callback) => {
 };
 
 const readLogsThaemine = (difficulty, callback) => {
-    const sql = `SELECT * FROM log WHERE localPlayer GLOB '*[^0-9]*' AND difficulty = '${difficulty}' AND (nameBoss = 'Killineza the Dark Worshipper' OR nameBoss = 'Valinak, Herald of the End' OR nameBoss = 'Valinak, Taboo Usurper' OR nameBoss = 'Valinak, Herald of the End' OR nameBoss = 'Thaemine the Lightqueller' OR nameBoss = 'Dark Greatsword')`;
+    const sql = `SELECT * FROM log WHERE name NOT GLOB '*[0-9]*' AND localPlayer NOT GLOB '*[0-9]*' AND difficulty = '${difficulty}' AND (nameBoss = 'Killineza the Dark Worshipper' OR nameBoss = 'Valinak, Herald of the End' OR nameBoss = 'Valinak, Taboo Usurper' OR nameBoss = 'Valinak, Herald of the End' OR nameBoss = 'Thaemine the Lightqueller' OR nameBoss = 'Dark Greatsword')`;
+    appDb.all(sql, [], callback)
+};
+
+const readLogsVoldis = (difficulty, callback) => {
+    const sql = `SELECT * FROM log WHERE name NOT GLOB '*[0-9]*' AND localPlayer NOT GLOB '*[0-9]*' AND difficulty = '${difficulty}' AND (nameBoss = 'Kaltaya, the Blooming Chaos' OR nameBoss = 'Rakathus, the Lurking Arrogance' OR nameBoss = 'Firehorn, Trampler of Earth' OR nameBoss = 'Lazaram, the Trailblazer')`;
     appDb.all(sql, [], callback)
 };
 
 const readLogsAkkan = (difficulty, callback) => {
-    const sql = `SELECT * FROM log WHERE localPlayer GLOB '*[^0-9]*' AND gearLvl > 0 AND difficulty = '${difficulty}' AND (nameBoss = 'Lord of Degradation Akkan' OR nameBoss = 'Evolved Maurug' OR nameBoss = 'Griefbringer Maurug' OR nameBoss = 'Plague Legion Commander Akkan' OR nameBoss = 'Lord of Kartheon Akkan')`;
+    const sql = `SELECT * FROM log WHERE name NOT GLOB '*[0-9]*' AND localPlayer NOT GLOB '*[0-9]*' AND difficulty = '${difficulty}' AND (nameBoss = 'Lord of Degradation Akkan' OR nameBoss = 'Evolved Maurug' OR nameBoss = 'Griefbringer Maurug' OR nameBoss = 'Plague Legion Commander Akkan' OR nameBoss = 'Lord of Kartheon Akkan')`;
     appDb.all(sql, [], callback)
 };
 
-const updateItem = (id, name, description, callback) => {
-    const sql = `UPDATE items SET name = ?, description = ? WHERE id = ?`
-    appDb.run(sql, [name, description, id], callback)
-};
 
-const deleteItem = (id, callback) => {
-    const sql = `DELETE FROM items WHERE id = ?`
-    appDb.run(sql, id, callback)
-};
-
-module.exports = { saveAllLogs, readLogsThaemine, readLogsAkkan, updateItem, deleteItem };
+module.exports = { saveAllLogs, readLogsThaemine, readLogsVoldis, readLogsAkkan };

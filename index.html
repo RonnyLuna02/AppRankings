@@ -11,7 +11,7 @@
 
 
 <body
-  style="background-image: url(/bg-beatrice.jpg); background-size: 100%; bottom:0; background-position:fixed; background-repeat: no-repeat; background-attachment: fixed;">
+  style="background-image: url(/bg-beatrice.jpg); background-size: 100%; bottom:0; background-position:fixed; background-repeat: no-repeat; background-attachment: fixed;" onload="getLogs()">
   <div class="container-fluid">
     <div class="row mt-2 mb-2" style="padding-left: 1rem; padding-right: 1rem;">
       <div class="col"></div>
@@ -20,40 +20,39 @@
           <div class="col-6">
             <div class="row mt-2">
               <div class="btn-group mb-3" role="group" aria-label="Basic radio toggle button group">
-                <input type="radio" class="btn-check" name="btnRaid" id="btnAkkan" autocomplete="off">
+                <input type="radio" class="btn-check" name="btnRaid" id="btnAkkan" value="akkan" autocomplete="off" onclick="getLogs()">
                 <label class="btn btn-outline-light" for="btnAkkan">Akkan</label>
 
-                <input type="radio" class="btn-check" name="btnRaid" id="btnVoldis" autocomplete="off" checked>
+                <input type="radio" class="btn-check" name="btnRaid" id="btnVoldis" value="voldis" autocomplete="off" onclick="getLogs()">
                 <label class="btn btn-outline-light" for="btnVoldis">Voldis</label>
 
-                <input type="radio" class="btn-check" name="btnRaid" id="btnThaemine" autocomplete="off" checked>
+                <input type="radio" class="btn-check" name="btnRaid" id="btnThaemine" value="thaemine" autocomplete="off" onclick="getLogs()" checked>
                 <label class="btn btn-outline-light" for="btnThaemine">Thaemine</label>
               </div>
             </div>
             <div class="row mb-2">
               <div class="col-4">
                 <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                  <input type="radio" class="btn-check" name="btnDifficulty" id="btnAkkan1" autocomplete="off" checked>
-                  <label class="btn btn-outline-light" for="btnAkkan1">Normal</label>
+                  <input type="radio" class="btn-check" name="btnDifficulty" id="btnDifficulty1" value="Normal" autocomplete="off" onclick="getLogs()" checked>
+                  <label class="btn btn-outline-light" for="btnDifficulty1">Normal</label>
 
-                  <input type="radio" class="btn-check" name="btnDifficulty" id="btnAkkan2" autocomplete="off">
-                  <label class="btn btn-outline-light" for="btnAkkan2">Hard</label>
+                  <input type="radio" class="btn-check" name="btnDifficulty" id="btnDifficulty2" value="Hard" autocomplete="off" onclick="getLogs()">
+                  <label class="btn btn-outline-light" for="btnDifficulty2" name="hardest">Hard</label>
                 </div>
               </div>
               <div class="col-6">
                 <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                  <input type="radio" class="btn-check" name="btnGate" id="btnGate1" autocomplete="off"
-                    checked>
+                  <input type="radio" class="btn-check" name="btnGate" id="btnGate1" value="1" autocomplete="off" onclick="getLogs()">
                   <label class="btn btn-outline-light" for="btnGate1">G1</label>
 
-                  <input type="radio" class="btn-check" name="btnGate" id="btnGate2" autocomplete="off">
+                  <input type="radio" class="btn-check" name="btnGate" id="btnGate2" value="2" autocomplete="off" onclick="getLogs()">
                   <label class="btn btn-outline-light" for="btnGate2">G2</label>
 
-                  <input type="radio" class="btn-check" name="btnGate" id="btnGate3" autocomplete="off">
+                  <input type="radio" class="btn-check" name="btnGate" id="btnGate3" value="3" autocomplete="off" onclick="getLogs()" checked>
                   <label class="btn btn-outline-light" for="btnGate3">G3</label>
 
-                  <input type="radio" class="btn-check" name="btnGate" id="btnGate4" autocomplete="off" style="display: none;">
-                  <label class="btn btn-outline-light" for="btnGate4" style="display: none;">G4</label>
+                  <input type="radio" class="btn-check" name="btnGate" id="btnGate4" value="4"  autocomplete="off" onclick="getLogs()">
+                  <label class="btn btn-outline-light" for="btnGate4" name="gate4" style="display: none;">G4</label>
                 </div>
               </div>
             </div>
@@ -64,23 +63,22 @@
         </div>
         <div class="row mt-2 mb-2">
           <div class="col-2"><input type="text" id="search" class="form-control" placeholder="Search Name" style="display:none"></div>
-          <div class="col-2"><input type="number" min="1580" max="1680" id="searchItemLvl" class="form-control" placeholder="Max item Lvl" style="display:none"></div>
           <div class="col-2"><input type="text" id="searchClass" class="form-control" placeholder="Search Class" style="display:none"></div>
+          <div class="col-2"><input type="number" min="1580" max="1680" id="searchItemLvl" class="form-control" placeholder="Max item Lvl" style="display:none"></div>
           <div class="col-6 d-flex justify-content-end">
-            <span class="input-group-text bg-secondary text-white me-1">Min Damage Dealt:</span>
+            <span class="input-group-text bg-secondary text-white me-1">Min total raid dmg dealt:</span>
               <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                <input type="radio" class="btn-check" name="btnDmgDealt" id="btnDmgDealt1" autocomplete="off"
-                  checked>
+                <input type="radio" class="btn-check" name="btnDmgDealt" id="btnDmgDealt1" value="0" autocomplete="off" onclick="getLogs()" checked>
                 <label class="btn btn-outline-light" for="btnDmgDealt1">0%</label>
 
-                <input type="radio" class="btn-check" name="btnDmgDealt" id="btnDmgDealt2" autocomplete="off">
+                <input type="radio" class="btn-check" name="btnDmgDealt" id="btnDmgDealt2" value="20" autocomplete="off" onclick="getLogs()">
                 <label class="btn btn-outline-light" for="btnDmgDealt2">20%</label>
 
-                <input type="radio" class="btn-check" name="btnDmgDealt" id="btnDmgDealt3" autocomplete="off">
+                <input type="radio" class="btn-check" name="btnDmgDealt" id="btnDmgDealt3" value="50" autocomplete="off" onclick="getLogs()">
                 <label class="btn btn-outline-light" for="btnDmgDealt3">50%</label>
-                <input type="radio" class="btn-check" name="btnDmgDealt" id="btnDmgDealt4" autocomplete="off">
+                <input type="radio" class="btn-check" name="btnDmgDealt" id="btnDmgDealt4" value="80" autocomplete="off" onclick="getLogs()">
                 <label class="btn btn-outline-light" for="btnDmgDealt4">80%</label>
-                <input type="radio" class="btn-check" name="btnDmgDealt" id="btnDmgDealt5" autocomplete="off">
+                <input type="radio" class="btn-check" name="btnDmgDealt" id="btnDmgDealt5" value="100" autocomplete="off" onclick="getLogs()">
                 <label class="btn btn-outline-light" for="btnDmgDealt5">100%</label>
               </div>
           </div>
