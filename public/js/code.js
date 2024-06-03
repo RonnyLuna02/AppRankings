@@ -101,3 +101,40 @@ const mostrar = (players) => {
     rows = document.querySelectorAll('tbody tr');
 };
 
+let id = '/1';
+let raid = 'akkan';
+let difficulty = '/Hard';
+let dmg = '/0';
+
+fetch(url + raid + difficulty + id + dmg)
+    .then(response => response.json())
+    .then(data => mostrar(data))
+    .catch(error => console.log(error));
+
+function handleRadio(radio, type){
+    if(type === 'raid'){
+        raid = radio.value;
+        if(raid === 'akkan'){
+            document.getElementById('banner').style.backgroundImage="url(/akkan.jpg)";
+        }
+        else if(raid === 'voldis'){
+            document.getElementById('banner').style.backgroundImage="url(/voldis.png)";
+        }
+        else if(raid === 'thaemine'){
+            document.getElementById('banner').style.backgroundImage="url(/thaemine.jpg)";
+        }
+    }
+    else if(type === 'difficulty'){
+        difficulty = radio.value || '/Normal';
+    }
+    else if(type === 'gate'){
+        id = radio.value || '/1';
+    }
+    else if(type === 'dmg'){
+        dmg = radio.value || '/0';
+    }
+    fetch(url + raid + difficulty + id + dmg)
+        .then(response => response.json())
+        .then(data => mostrar(data))
+        .catch(error => console.log(error));
+}

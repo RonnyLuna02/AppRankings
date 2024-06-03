@@ -19,10 +19,12 @@ app.get('/', (req, res) => {
 });
 
 app.get('/:raid/:difficulty/:id/:dmg', (req, res) => {
+    
     const id = req.params.id;
     const raidDifficulty = req.params.difficulty;
     const raid = req.params.raid;
     const dmg = req.params.dmg;
+    console.log(raid + ' ' + raidDifficulty + ' ' + id + ' ' + dmg)
     if (raid === 'akkan') {
         readLogsAkkan(raidDifficulty, (err, rows) => {
             if (err) {
