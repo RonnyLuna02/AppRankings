@@ -7,10 +7,16 @@ let btns = document.querySelectorAll('input');
 var rows;
 let resultados = '';
 
-// function uploadFile() {
-//     debugger
-//     document.getElementById('fileForm').submit();
-// }
+const form = document.getElementById('fileForm');
+
+form.addEventListener('submit', (event) => {
+    fetch('http://localhost:3000/logs', {
+        method: 'POST',
+        body: new FormData(form),
+    })
+    event.preventDefault();
+});
+
 
 // document.getElementById("fileForm").onsubmit = function () {
 //     fetch('')

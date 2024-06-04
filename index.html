@@ -70,15 +70,18 @@
           <div class="col-6">
             <div class="row mt-2 ">
               <div class="col-12 d-flex justify-content-end">
-                <form action="http://localhost:3000/logs" id="fileForm" method="post" enctype="multipart/form-data">
+                <form action="" id="fileForm" method="post" enctype="multipart/form-data">
                   <div class="mb-3">                  
-                    <input class="form-control-md" type="file" name="logs" style="color: white;">
-                    <input type="submit" class="btn btn-outline-light"></input>
-                    <button type="button" class="btn btn-outline-light" onmouseover="showImg()"
+                    <input class="form-control" type="file" name="logs">
+                    <input type="submit" class="btn btn-outline-light mt-2" value="Upload"></input>
+                    <button type="button" class="btn btn-outline-light mt-2" onmouseover="showImg()"
                     onMouseOut="hideImg()">?</button>
                   </div>
                 </form>
               </div>
+            </div>
+            <div class="row">
+              <div class="col-4"></div>
             </div>
           </div>
         </div>
