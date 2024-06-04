@@ -2,7 +2,7 @@ const express = require('express');
 const { saveAllLogs, readLogsThaemine, readLogsVoldis, readLogsAkkan } = require('./crud');
 const multer = require('multer');
 const cors = require('cors');
-const upload = multer({ dest: '/api/logs/' });
+const upload = multer({ dest: 'logs/' });
 const path = require('path');
 const app = express();
 
