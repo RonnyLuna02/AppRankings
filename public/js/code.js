@@ -70,6 +70,9 @@ const mostrar = (players) => {
     rows = document.querySelectorAll('tbody tr');
 };
 
+
+var fileInput = document.getElementById('fileInput');
+var submitButton = document.getElementById('btnSubmit');
 var hard = document.getElementById('difficulty2');
 var gate4 = document.getElementById('gate4');
 var banner = document.getElementById('banner');
@@ -77,6 +80,12 @@ let id = '3';
 let raid = 'akkan';
 let difficulty = 'Hard';
 let dmg = '0';
+
+fileInput.addEventListener("change", function () {
+    if (fileInput.files.length > 0) {
+      submitButton.hidden=false;
+    }
+});
 
 fetch(url + raid + '/' + difficulty + '/' + id + '/' + dmg)
         .then(response => response.json())

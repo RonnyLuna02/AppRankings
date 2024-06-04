@@ -57,19 +57,15 @@
               </div>
             </div>
           </div>
-          <div class="col">
-            <div class="col-6">
-              <div class="row mt-2 ">
-                <div class="col-12 d-flex justify-content-end">
-                  <form action="http://localhost:3000/logs" id="fileForm" method="post" enctype="multipart/form-data">
-                    <div class="mb-3">                  
-                      <input class="form-control-md" type="file" name="logs" style="color: white;">
-                      <input type="submit" class="btn btn-outline-light"></input>
-                      <button type="button" class="btn btn-outline-light" onmouseover="showImg()"
-                      onMouseOut="hideImg()">?</button>
-                    </div>
-                  </form>
-                </div>
+          <div class="col-6">
+            <div class="row mt-2 ">
+              <div class="col-12 d-flex justify-content-end">
+                <form action="/logs" id="fileForm" method="post" enctype="multipart/form-data">
+                  <div class="mb-3">                  
+                    <input id="fileInput" class="form-control-md" type="file" accept=".db" name="logs" style="color: white;">
+                    <input id="btnSubmit" type="submit" class="btn btn-outline-light" hidden>
+                  </div>
+                </form>
               </div>
             </div>
           </div>

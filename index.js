@@ -5,13 +5,15 @@ const fs = require('node:fs');
 const dbEncounter = require('./database');
 const { type } = require('node:os');
 const cors = require('cors');
-
 const upload = multer({ dest: 'logs/' });
 const app = express();
+
+require('dotenv').config()
+const port = process.env.PORT || 3000;
+
 app.disable('x-powered-by');
 app.use(express.json());
 app.use(cors());
-
 app.use(express.static(__dirname + '/public'))
 
 app.get('/', (req, res) => {
@@ -409,8 +411,8 @@ app.post('/logs', upload.single('logs'), (req, res) => {
     res.send('DB ingresada')
 });
 
-app.listen(3000, () => {
-    console.log("Server is Running")
+app.listen(port, () => {
+    console.log("Server is Running on port " + port)
 });
 
 function tryPlayersCount(obj) {
