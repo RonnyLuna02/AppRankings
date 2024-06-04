@@ -41,7 +41,7 @@ const saveAllLogs = (file) => {
                 if (error) {
                     console.log(error)
                 } else {
-                    fs.renameSync(uploadedDb, `./api/logs/${playerMain(mainList)}-` + Date.now() + '.db', (err) => {
+                    fs.renameSync(uploadedDb, `./logs/${playerMain(mainList)}-` + Date.now() + '.db', (err) => {
                         if (err) {
                             console.log(err)
                         } else {
