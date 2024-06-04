@@ -4,6 +4,7 @@ let searchInput = document.getElementById('search')
 let searchClass = document.getElementById('searchClass')
 let iLvlInput = document.getElementById('searchItemLvl')
 let btns = document.querySelectorAll('input');
+let blockBtns = document.querySelectorAll('btn');
 var rows;
 let resultados = '';
 
@@ -31,46 +32,6 @@ function showImg() {
 
 function hideImg() {
     document.getElementById('imgaFolder').style.backgroundImage = ''
-}
-
-function getLogs() {
-    let raid = document.querySelector('input[name="btnRaid"]:checked').value;
-    let difficulty = document.querySelector('input[name="btnDifficulty"]:checked').value;
-    let id = document.querySelector('input[name="btnGate"]:checked').value;
-    let dmg = document.querySelector('input[name="btnDmgDealt"]:checked').value;
-    let btns = document.querySelectorAll('input');
-    let gate4 = document.getElementsByName('gate4');
-    let hardest = document.getElementsByName('hardest');
-
-    if (raid === 'voldis') {
-        gate4[0].style.display = "block";
-        document.getElementById('raidImg').style.background = 'url(/voldis.png)';
-        document.getElementById('raidImg').style.backgroundPositionY = '40%';
-        document.getElementById('raidImg').style.backgroundPosition = 'center';
-        document.getElementById('raidImg').style.backgroundSize = 'cover';
-    } else {
-        gate4[0].style.display = "none";
-    }
-    if (raid === 'thaemine') {
-        hardest[0].style.display = "none";
-        document.getElementById('raidImg').style.background = 'url(/thaemine.jpg)';
-        document.getElementById('raidImg').style.backgroundPosition = 'top';
-        document.getElementById('raidImg').style.backgroundSize = 'cover';
-    } else {
-        hardest[0].style.display = "block";
-    }
-    if (raid === 'akkan') {
-        document.getElementById('raidImg').style.background = 'url(/akkan.jpg)';
-        document.getElementById('raidImg').style.backgroundPosition = 'center';
-        document.getElementById('raidImg').style.backgroundSize = 'cover';
-    }
-    btns.forEach((btn) => { btn.disabled = true });
-    resultados = '';
-    contenedor.innerHTML = resultados;
-    fetch(url + raid + '/' + difficulty + '/' + id + '/' + dmg)
-        .then(response => response.json())
-        .then(data => mostrar(data))
-        .catch(error => console.log(error));
 }
 
 searchInput.addEventListener('keyup', function (event) {
@@ -127,10 +88,10 @@ const mostrar = (players) => {
                 `
     })
     contenedor.innerHTML = resultados;
-    btns.forEach((btn) => { btn.disabled = false });
     searchInput.style.display = 'block';
     iLvlInput.style.display = 'block';
     searchClass.style.display = 'block';
+    btns.forEach((btn) => { btn.disabled = false });
     rows = document.querySelectorAll('tbody tr');
 };
 
@@ -146,48 +107,54 @@ let dmg = '0';
 
 fileInput.addEventListener("change", function () {
     if (fileInput.files.length > 0) {
-      submitButton.hidden=false;
+        submitButton.hidden = false;
     }
 });
 
 fetch(url + raid + '/' + difficulty + '/' + id + '/' + dmg)
-        .then(response => response.json())
-        .then(data => mostrar(data))
-        .catch(error => console.log(error));
+    .then(response => response.json())
+    .then(data => mostrar(data))
+    .catch(error => console.log(error));
 
-function handleRadio(radio, type){
-    if(type === 'raid'){    
+function handleRadio(radio, type) {
+    btns.forEach((btn) => { btn.disabled = true });
+    if (type === 'raid') {
         document.getElementById('btnGate3').checked = true;
+        banner.style.backgroundPosition = "center";
+        banner.style.backgroundSize = "cover";
         raid = radio.value;
         id = 3;
-        gate4.hidden = true;        
+        gate4.hidden = true;
         hard.hidden = false;
 
-        if(raid === 'akkan'){
-            banner.style.backgroundImage="url(/akkan.jpg)";
+        if (raid === 'akkan') {
+            banner.style.backgroundImage = "url(/akkan.jpg)";
+
         }
-        else if(raid === 'voldis'){
+        else if (raid === 'voldis') {
             document.getElementById('btnGate4').checked = true;
-            banner.style.backgroundImage="url(/voldis.png)";
+            banner.style.backgroundImage = "url(/voldis.png)";
             gate4.hidden = false;
             id = 4;
         }
-        else if(raid === 'thaemine'){
+        else if (raid === 'thaemine') {
             document.getElementById('btnDifficulty1').checked = true;
-            banner.style.backgroundImage="url(/thaemine.jpg)";
+            banner.style.backgroundImage = "url(/thaemine.jpg)";
+            banner.style.backgroundPosition = "top";
             hard.hidden = true;
             difficulty = 'Normal';
         }
     }
-    else if(type === 'difficulty'){
+    else if (type === 'difficulty') {
         difficulty = radio.value;
     }
-    else if(type === 'gate'){
+    else if (type === 'gate') {
         id = radio.value;
     }
-    else if(type === 'dmg'){
+    else if (type === 'dmg') {
         dmg = radio.value;
     }
+
     resultados = '';
     contenedor.innerHTML = resultados;
     fetch(url + raid + '/' + difficulty + '/' + id + '/' + dmg)
