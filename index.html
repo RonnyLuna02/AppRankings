@@ -9,7 +9,6 @@
     integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 
-
 <body
   style="background-image: url(/bg-beatrice.jpg); background-size: 100%; bottom:0; background-position:fixed; background-repeat: no-repeat; background-attachment: fixed;"
   onload="getLogs()">
@@ -71,10 +70,10 @@
             <div class="row mt-2 ">
               <div class="col-12 d-flex justify-content-end">
                 <form action="" id="fileForm" method="post" enctype="multipart/form-data">
-                  <div class="mb-3">                  
+                  <div class="input-group">                  
                     <input class="form-control" type="file" name="logs">
-                    <input type="submit" class="btn btn-outline-light mt-2" value="Upload"></input>
-                    <button type="button" class="btn btn-outline-light mt-2" onmouseover="showImg()"
+                    <button type="submit" class="btn btn-outline-light" style="background-color: dimgray;">Upload</button>
+                    <button type="button" class="btn btn-outline-light" style="background-color: dimgray;" onmouseover="showImg()"
                     onMouseOut="hideImg()">?</button>
                   </div>
                 </form>
@@ -147,5 +146,4 @@
     crossorigin="anonymous"></script>
   <script src="js/code.js"></script>
 </body>
-
 </html>

@@ -13,6 +13,12 @@ form.addEventListener('submit', (event) => {
     fetch('http://localhost:3000/logs', {
         method: 'POST',
         body: new FormData(form),
+    }).then((response) => {
+        if (response.status === 200) {
+            alert("Uploaded");
+        } else {
+            alert("Error");
+        }
     })
     event.preventDefault();
 });
@@ -69,7 +75,6 @@ function getLogs() {
     btns.forEach((btn) => { btn.disabled = true });
     resultados = '';
     contenedor.innerHTML = resultados;
-    debugger
     fetch(url + raid + '/' + difficulty + '/' + id + '/' + dmg)
         .then(response => response.json())
         .then(data => mostrar(data))
@@ -96,7 +101,6 @@ searchClass.addEventListener('keyup', function (event) {
 
 iLvlInput.addEventListener('keyup', function (event) {
     const q = event.target.value;
-    debugger
     if (q.length === 4) {
         rows.forEach((row) => {
             console.log(row.querySelector('td').textContent)
