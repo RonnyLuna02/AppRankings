@@ -11,7 +11,7 @@ let resultados = '';
 const form = document.getElementById('fileForm');
 
 form.addEventListener('submit', (event) => {
-    fetch('/', {
+    fetch('/api', {
         method: 'POST',
         body: new FormData(form),
     }).then((response) => {
