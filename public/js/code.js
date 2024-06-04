@@ -144,7 +144,9 @@ function handleRadio(radio, type){
         dmg = radio.value;
         dmg = radio.value;
     }
-    contenedor.innerHTML = '';
+    resultados = '';
+    contenedor.innerHTML = resultados;
+    debugger
     fetch(url + raid + '/' + difficulty + '/' + id + '/' + dmg)
         .then(response => response.json())
         .then(data => mostrar(data))
