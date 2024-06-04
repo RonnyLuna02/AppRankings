@@ -23,7 +23,6 @@ searchClass.addEventListener('keyup', function (event) {
     });
 });
 
-
 iLvlInput.addEventListener('keyup', function (event) {
     const q = event.target.value;
     debugger
@@ -117,7 +116,9 @@ function handleRadio(radio, type){
     else if(type === 'dmg'){
         dmg = radio.value;
     }
-    contenedor.innerHTML = '';
+    resultados = '';
+    contenedor.innerHTML = resultados;
+    debugger
     fetch(url + raid + '/' + difficulty + '/' + id + '/' + dmg)
         .then(response => response.json())
         .then(data => mostrar(data))
