@@ -7,9 +7,10 @@ let btns = document.querySelectorAll('input');
 var rows;
 let resultados = '';
 
-function uploadFile() {
-    document.getElementById('fileForm').submit();
-}
+// function uploadFile() {
+//     debugger
+//     document.getElementById('fileForm').submit();
+// }
 
 // document.getElementById("fileForm").onsubmit = function () {
 //     fetch('')

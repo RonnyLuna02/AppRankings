@@ -8,11 +8,8 @@ let encounterDb;
 
 const saveAllLogs = (file) => {
 
-    let dataEncounters = [];
     let mainList = [];
-    var hasNumber = /\d/;
     encounterDb = {};
-
     let uploadedDb = `${renameFile(file)}`;
     encounterDb = new sqlite3.Database(uploadedDb, (err) => {
         if (err) {

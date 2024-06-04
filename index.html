@@ -70,11 +70,13 @@
           <div class="col-6">
             <div class="row mt-2 ">
               <div class="col-12 d-flex justify-content-end">
-                <form action="http://localhost:3000/logs" id="fileForm" method="post">
-                  <input class="form-control" type="file" id="logs" style="display: none;" accept=".db">
-                  <label for="logs" class="btn btn-outline-light" onchange="uploadFile()">UPLOAD LOGS (encounters.db)</label>
-                  <button type="button" class="btn btn-outline-light" onmouseover="showImg()"
+                <form action="http://localhost:3000/logs" id="fileForm" method="post" enctype="multipart/form-data">
+                  <div class="mb-3">                  
+                    <input class="form-control-md" type="file" name="logs" style="color: white;">
+                    <input type="submit" class="btn btn-outline-light"></input>
+                    <button type="button" class="btn btn-outline-light" onmouseover="showImg()"
                     onMouseOut="hideImg()">?</button>
+                  </div>
                 </form>
               </div>
             </div>

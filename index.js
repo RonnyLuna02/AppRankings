@@ -399,6 +399,10 @@ app.get('/:raid/:difficulty/:id/:dmg', (req, res) => {
 });
 
 app.post('/logs', upload.single('logs'), (req, res) => {
+    const file = req.file;
+    if (!file) {
+        return res.status(400).send('No file included')
+    }
     saveAllLogs(req.file)
     res.send('DB ingresada')
 });
