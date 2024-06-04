@@ -5,13 +5,15 @@ const fs = require('node:fs');
 const dbEncounter = require('./database');
 const { type } = require('node:os');
 const cors = require('cors');
-
 const upload = multer({ dest: 'logs/' });
 const app = express();
+
+require('dotenv').config()
+const port = process.env.PORT || 3000;
+
 app.disable('x-powered-by');
 app.use(express.json());
 app.use(cors());
-
 app.use(express.static(__dirname + '/public'))
 
 app.get('/', (req, res) => {
@@ -19,10 +21,12 @@ app.get('/', (req, res) => {
 });
 
 app.get('/:raid/:difficulty/:id/:dmg', (req, res) => {
+    
     const id = req.params.id;
     const raidDifficulty = req.params.difficulty;
     const raid = req.params.raid;
     const dmg = req.params.dmg;
+    console.log(raid + ' ' + raidDifficulty + ' ' + id + ' ' + dmg)
     if (raid === 'akkan') {
         readLogsAkkan(raidDifficulty, (err, rows) => {
             if (err) {
@@ -398,17 +402,17 @@ app.get('/:raid/:difficulty/:id/:dmg', (req, res) => {
     }
 });
 
-app.post('/logs', upload.single('logs'), (req, res) => {
+app.post('/', upload.single('logs'), (req, res) => {
     const file = req.file;
     if (!file) {
         return res.status(400).send('No file included')
     }
     saveAllLogs(req.file)
-    res.send('DB ingresada')
+    res.status(200).send('Saved')
 });
 
-app.listen(3000, () => {
-    console.log("Server is Running")
+app.listen(port, () => {
+    console.log("Server is Running on port " + port)
 });
 
 function tryPlayersCount(obj) {
