@@ -23,14 +23,6 @@ form.addEventListener('submit', (event) => {
     event.preventDefault();
 });
 
-
-// document.getElementById("fileForm").onsubmit = function () {
-//     fetch('')
-//         .then(response => response.json())
-//         .then(console.log(response))
-//         .catch(error => console.log(error));
-// }
-
 function showImg() {
     document.getElementById('imgaFolder').style.backgroundImage = 'url(/folder.png)'
     document.getElementById('imgaFolder').style.backgroundSize = 'contain'
@@ -80,7 +72,6 @@ function getLogs() {
         .then(data => mostrar(data))
         .catch(error => console.log(error));
 }
-
 
 searchInput.addEventListener('keyup', function (event) {
     const q = event.target.value.toLowerCase();
@@ -199,7 +190,6 @@ function handleRadio(radio, type){
     }
     resultados = '';
     contenedor.innerHTML = resultados;
-    debugger
     fetch(url + raid + '/' + difficulty + '/' + id + '/' + dmg)
         .then(response => response.json())
         .then(data => mostrar(data))
