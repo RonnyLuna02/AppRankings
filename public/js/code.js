@@ -1,4 +1,4 @@
-const url = 'http://localhost:3000/'
+const url = '/'
 const contenedor = document.querySelector('tbody')
 let searchInput = document.getElementById('search')
 let searchClass = document.getElementById('searchClass')
@@ -10,7 +10,7 @@ let resultados = '';
 const form = document.getElementById('fileForm');
 
 form.addEventListener('submit', (event) => {
-    fetch('http://localhost:3000/logs', {
+    fetch('/', {
         method: 'POST',
         body: new FormData(form),
     })
