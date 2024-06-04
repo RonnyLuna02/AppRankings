@@ -7,6 +7,27 @@ let btns = document.querySelectorAll('input');
 var rows;
 let resultados = '';
 
+function uploadFile() {
+    document.getElementById('fileForm').submit();
+}
+
+// document.getElementById("fileForm").onsubmit = function () {
+//     fetch('')
+//         .then(response => response.json())
+//         .then(console.log(response))
+//         .catch(error => console.log(error));
+// }
+
+function showImg() {
+    document.getElementById('imgaFolder').style.backgroundImage = 'url(/folder.png)'
+    document.getElementById('imgaFolder').style.backgroundSize = 'contain'
+    document.getElementById('imgaFolder').style.backgroundRepeat = 'no-repeat'
+}
+
+function hideImg() {
+    document.getElementById('imgaFolder').style.backgroundImage = ''
+}
+
 function getLogs() {
     let raid = document.querySelector('input[name="btnRaid"]:checked').value;
     let difficulty = document.querySelector('input[name="btnDifficulty"]:checked').value;
@@ -18,13 +39,25 @@ function getLogs() {
 
     if (raid === 'voldis') {
         gate4[0].style.display = "block";
+        document.getElementById('raidImg').style.background = 'url(/voldis.png)';
+        document.getElementById('raidImg').style.backgroundPositionY = '40%';
+        document.getElementById('raidImg').style.backgroundPosition = 'center';
+        document.getElementById('raidImg').style.backgroundSize = 'cover';
     } else {
         gate4[0].style.display = "none";
     }
     if (raid === 'thaemine') {
         hardest[0].style.display = "none";
+        document.getElementById('raidImg').style.background = 'url(/thaemine.jpg)';
+        document.getElementById('raidImg').style.backgroundPosition = 'top';
+        document.getElementById('raidImg').style.backgroundSize = 'cover';
     } else {
         hardest[0].style.display = "block";
+    }
+    if (raid === 'akkan') {
+        document.getElementById('raidImg').style.background = 'url(/akkan.jpg)';
+        document.getElementById('raidImg').style.backgroundPosition = 'center';
+        document.getElementById('raidImg').style.backgroundSize = 'cover';
     }
     btns.forEach((btn) => { btn.disabled = true });
     resultados = '';
