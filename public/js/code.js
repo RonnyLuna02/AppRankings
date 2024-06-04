@@ -78,16 +78,12 @@ let raid = 'akkan';
 let difficulty = 'Hard';
 let dmg = '0';
 
-
 fetch(url + raid + '/' + difficulty + '/' + id + '/' + dmg)
         .then(response => response.json())
         .then(data => mostrar(data))
         .catch(error => console.log(error));
 
-
 function handleRadio(radio, type){
-    if(type === 'raid'){    
-        document.getElementById('btnGate3').checked = true;
     if(type === 'raid'){    
         document.getElementById('btnGate3').checked = true;
         raid = radio.value;
@@ -95,19 +91,10 @@ function handleRadio(radio, type){
         gate4.hidden = true;        
         hard.hidden = false;
 
-        id = 3;
-        gate4.hidden = true;        
-        hard.hidden = false;
-
         if(raid === 'akkan'){
-            banner.style.backgroundImage="url(/akkan.jpg)";
             banner.style.backgroundImage="url(/akkan.jpg)";
         }
         else if(raid === 'voldis'){
-            document.getElementById('btnGate4').checked = true;
-            banner.style.backgroundImage="url(/voldis.png)";
-            gate4.hidden = false;
-            id = 4;
             document.getElementById('btnGate4').checked = true;
             banner.style.backgroundImage="url(/voldis.png)";
             gate4.hidden = false;
@@ -118,22 +105,15 @@ function handleRadio(radio, type){
             banner.style.backgroundImage="url(/thaemine.jpg)";
             hard.hidden = true;
             difficulty = 'Normal';
-            document.getElementById('btnDifficulty1').checked = true;
-            banner.style.backgroundImage="url(/thaemine.jpg)";
-            hard.hidden = true;
-            difficulty = 'Normal';
         }
     }
     else if(type === 'difficulty'){
         difficulty = radio.value;
-        difficulty = radio.value;
     }
     else if(type === 'gate'){
         id = radio.value;
-        id = radio.value;
     }
     else if(type === 'dmg'){
-        dmg = radio.value;
         dmg = radio.value;
     }
     resultados = '';
