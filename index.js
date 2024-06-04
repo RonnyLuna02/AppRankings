@@ -1,11 +1,9 @@
 const express = require('express');
 const { saveAllLogs, readLogsThaemine, readLogsVoldis, readLogsAkkan, updateItem, deleteItem } = require('./crud');
 const multer = require('multer');
-const fs = require('node:fs');
-const dbEncounter = require('./database');
-const { type } = require('node:os');
 const cors = require('cors');
 const upload = multer({ dest: 'logs/' });
+const path = require('path');
 const app = express();
 
 require('dotenv').config()
@@ -14,10 +12,10 @@ const port = process.env.PORT || 3000;
 app.disable('x-powered-by');
 app.use(express.json());
 app.use(cors());
-app.use(express.static(__dirname + '/public'))
+app.use(express.static('public'))
 
 app.get('/', (req, res) => {
-    res.sendFile('index.html', { root: __dirname })
+    res.sendFile('index.html', { root: path.join(__dirname, 'public') })
 });
 
 app.get('/:raid/:difficulty/:id/:dmg', (req, res) => {
