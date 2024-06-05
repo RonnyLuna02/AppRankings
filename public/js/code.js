@@ -105,7 +105,7 @@ var gate4 = document.getElementById('gate4');
 var banner = document.getElementById('banner');
 let id = '3';
 let raid = 'akkan';
-let difficulty = 'Hard';
+let difficulty = 'Normal';
 let dmg = '0';
 
 fileInput.addEventListener("change", function () {
