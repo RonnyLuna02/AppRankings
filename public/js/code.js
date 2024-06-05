@@ -38,7 +38,6 @@ function hideImg() {
 searchInput.addEventListener('keyup', function (event) {
     const q = event.target.value.toLowerCase();
     rows.forEach((row) => {
-        console.log(row.querySelector('td').textContent)
         row.querySelector('#name').textContent.toLowerCase().startsWith(q) ? (row.style.display = 'table-row') : (row.style.display = 'none')
     });
 });
@@ -46,7 +45,6 @@ searchInput.addEventListener('keyup', function (event) {
 searchClass.addEventListener('keyup', function (event) {
     const q = event.target.value.toLowerCase();
     rows.forEach((row) => {
-        console.log(row.querySelector('td').textContent)
         row.querySelector('#class').textContent.toLowerCase().startsWith(q) ? (row.style.display = 'table-row') : (row.style.display = 'none')
     });
 });
@@ -55,7 +53,6 @@ iLvlInput.addEventListener('keyup', function (event) {
     const q = event.target.value;
     if (q.length === 4) {
         rows.forEach((row) => {
-            console.log(row.querySelector('td').textContent)
             if (row.querySelector('#itemLvl').textContent > q) {
                 row.style.display = 'none'
                 debugger
@@ -80,9 +77,9 @@ const mostrar = (players) => {
                     <td id="name">${player.name}</td>
                     <td id="class">${player.class}</td>
                     <td id="itemLvl">${player.itemLvl}</td>
-                    <td>${player.maxDps}</td>
-                    <td>${player.minDps}</td>
-                    <td>${player.averageDps}</td>
+                    <td>${formateoLoco(player.maxDps)} M</td>
+                    <td>${formateoLoco(player.minDps)} M</td>
+                    <td>${formateoLoco(player.averageDps)} M</td>
                     <td>${player.tries}</td>
                     <td>${player.clears}</td>
                 </tr>
@@ -95,6 +92,11 @@ const mostrar = (players) => {
     btns.forEach((btn) => { btn.disabled = false });
     rows = document.querySelectorAll('tbody tr');
 };
+
+function formateoLoco(number) {
+    let formateado = (number / 1000000).toFixed(2);
+    return formateado
+}
 
 var fileInput = document.getElementById('fileInput');
 var submitButton = document.getElementById('btnSubmit');
