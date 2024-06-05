@@ -96,11 +96,11 @@
             <span class="input-group-text bg-secondary text-white me-1">Min raid progress:</span>
             <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
               <input type="radio" class="btn-check" name="btnDmgDealt" id="btnDmgDealt1" value="0" autocomplete="off"
-                onchange="handleRadio(this, 'dmg')" checked>
-              <label class="btn btn-outline-light" for="btnDmgDealt1">0%</label>
+                onchange="handleRadio(this, 'dmg')" >
+              <label class="btn btn-outline-light" for="btnDmgDealt1" hidden>0%</label>
 
               <input type="radio" class="btn-check" name="btnDmgDealt" id="btnDmgDealt2" value="20" autocomplete="off"
-                onchange="handleRadio(this, 'dmg')">
+                onchange="handleRadio(this, 'dmg')" checked>
               <label class="btn btn-outline-light" for="btnDmgDealt2">20%</label>
 
               <input type="radio" class="btn-check" name="btnDmgDealt" id="btnDmgDealt3" value="50" autocomplete="off"

@@ -106,7 +106,7 @@ var banner = document.getElementById('banner');
 let id = '3';
 let raid = 'akkan';
 let difficulty = 'Normal';
-let dmg = '0';
+let dmg = '20';
 
 fileInput.addEventListener("change", function () {
     if (fileInput.files.length > 0) {

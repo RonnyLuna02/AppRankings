@@ -18,6 +18,112 @@ app.get('/', (req, res) => {
     res.sendFile('index.html', { root: path.join(__dirname, 'public') })
 });
 
+app.post('/api', upload.single('logs'), (req, res) => {
+    const file = req.file;
+    if (!file) {
+        return res.status(400).send('No file included')
+    }
+    saveAllLogs(req.file)
+    res.status(200).send('Saved')
+});
+
+app.listen(port, () => {
+    console.log("Server is Running on port " + port)
+});
+
+function tryPlayersCount(obj) {
+
+    if (Object.hasOwn(obj, 'tryPlayers')) {
+        let objeto = JSON.parse(obj.tryPlayers)
+        var vals = Object.keys(objeto).map(function (key) {
+            return objeto[key];
+        });
+        const merge3 = vals.flat(1);
+        return (merge3.length === 4) || (merge3.length === 8)
+    } else {
+        return false;
+    }
+};
+
+function totalDmgDealt(percent, raid, gate, difficulty) {
+    let gates;
+    switch (raid) {
+        case 'akkan':
+            gates = {
+                Hard: {
+                    '1': 29596865148,
+                    '2': 25832140459,
+                    '3': 56116859405
+                },
+                Normal: {
+                    '1': 18826758086,
+                    '2': 20747449536,
+                    '3': 23328379532
+                }
+            }
+            if (percent === 0) {
+                return 0;
+            } else {
+                return (Math.trunc((gates[difficulty][gate] * percent) / 100))
+            }
+            break;
+        case 'voldis':
+            gates = {
+                Hard: {
+                    '1': 18114884391,
+                    '2': 35946915710,
+                    '3': 26914105076,
+                    '4': 29612034158
+                },
+                Normal: {
+                    '1': 9304860934,
+                    '2': 18869882474,
+                    '3': 13816842478,
+                    '4': 15165030149
+                }
+            }
+            if (percent === 0) {
+                return 0;
+            } else {
+                return (Math.trunc((gates[difficulty][gate] * percent) / 100))
+            }
+            break;
+
+        case 'thaemine':
+            gates = {
+                Hard: {
+                    '1': 0,
+                    '2': 0,
+                    '3': 0,
+                    '4': 0
+                },
+                Normal: {
+                    '1': 30674780897,
+                    '2': 37851661157,
+                    '3': 63583172546
+                }
+            }
+            if (percent === 0) {
+                return 0;
+            } else {
+                return (Math.trunc((gates[difficulty][gate] * percent) / 100))
+            }
+            break;
+        default:
+            break;
+    }
+}
+
+function removeDuplicates(arr) {
+    let unique = [];
+    arr.forEach(element => {
+        if (!unique.includes(element.name) && (element.entityType === 'PLAYER')) {
+            unique.push(element.name);
+        }
+    });
+    return unique;
+}
+
 app.get('/:raid/:difficulty/:id/:dmg', (req, res) => {
 
     const id = req.params.id;
@@ -399,108 +505,3 @@ app.get('/:raid/:difficulty/:id/:dmg', (req, res) => {
     }
 });
 
-app.post('/api', upload.single('logs'), (req, res) => {
-    const file = req.file;
-    if (!file) {
-        return res.status(400).send('No file included')
-    }
-    saveAllLogs(req.file)
-    res.status(200).send('Saved')
-});
-
-app.listen(port, () => {
-    console.log("Server is Running on port " + port)
-});
-
-function tryPlayersCount(obj) {
-
-    if (Object.hasOwn(obj, 'tryPlayers')) {
-        let objeto = JSON.parse(obj.tryPlayers)
-        var vals = Object.keys(objeto).map(function (key) {
-            return objeto[key];
-        });
-        const merge3 = vals.flat(1);
-        return (merge3.length === 4) || (merge3.length === 8)
-    } else {
-        return false;
-    }
-};
-
-function totalDmgDealt(percent, raid, gate, difficulty) {
-    let gates;
-    switch (raid) {
-        case 'akkan':
-            gates = {
-                Hard: {
-                    '1': 29596865148,
-                    '2': 25832140459,
-                    '3': 56116859405
-                },
-                Normal: {
-                    '1': 18826758086,
-                    '2': 20747449536,
-                    '3': 23328379532
-                }
-            }
-            if (percent === 0) {
-                return 0;
-            } else {
-                return (Math.trunc((gates[difficulty][gate] * percent) / 100))
-            }
-            break;
-        case 'voldis':
-            gates = {
-                Hard: {
-                    '1': 18114884391,
-                    '2': 35946915710,
-                    '3': 26914105076,
-                    '4': 29612034158
-                },
-                Normal: {
-                    '1': 9304860934,
-                    '2': 18869882474,
-                    '3': 13816842478,
-                    '4': 15165030149
-                }
-            }
-            if (percent === 0) {
-                return 0;
-            } else {
-                return (Math.trunc((gates[difficulty][gate] * percent) / 100))
-            }
-            break;
-
-        case 'thaemine':
-            gates = {
-                Hard: {
-                    '1': 0,
-                    '2': 0,
-                    '3': 0,
-                    '4': 0
-                },
-                Normal: {
-                    '1': 30674780897,
-                    '2': 37851661157,
-                    '3': 63583172546
-                }
-            }
-            if (percent === 0) {
-                return 0;
-            } else {
-                return (Math.trunc((gates[difficulty][gate] * percent) / 100))
-            }
-            break;
-        default:
-            break;
-    }
-}
-
-function removeDuplicates(arr) {
-    let unique = [];
-    arr.forEach(element => {
-        if (!unique.includes(element.name) && (element.entityType === 'PLAYER')) {
-            unique.push(element.name);
-        }
-    });
-    return unique;
-}
