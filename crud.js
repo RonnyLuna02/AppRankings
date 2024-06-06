@@ -29,10 +29,11 @@ const saveAllLogs = (file) => {
                     console.log('Id log bug: ' + element.id)
                 } else {
                     saveLog(element, (error) => {
+                        // console.log('element ' + element.old_id + ' id try ' + element.old_id)
                         if (error) {
-                            console.log(error)
+                            console.log(element.old_id)
                         } else {
-                            //console.log('Log ' + element.id + ' ingresado')
+                            // console.log('Log ' + element.old_id + ' ingresado')
                         }
                     });
                 }
@@ -41,7 +42,7 @@ const saveAllLogs = (file) => {
                 if (error) {
                     console.log(error)
                 } else {
-                    fs.renameSync(uploadedDb, `./logs/${playerMain(mainList)}-` + Date.now() + '.db', (err) => {
+                    fs.renameSync(uploadedDb, `./data/logs/${playerMain(mainList)}-` + Date.now() + '.db', (err) => {
                         if (err) {
                             console.log(err)
                         } else {
