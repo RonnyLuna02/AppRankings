@@ -1,5 +1,5 @@
 const sqlite3 = require('sqlite3').verbose();
-const mainDb = 'data/appRanking.db';
+const mainDb = 'data/appRankings.db';
 
 let appDb = new sqlite3.Database(mainDb, (err) => {
     if (err) {
