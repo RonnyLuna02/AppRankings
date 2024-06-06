@@ -102,8 +102,8 @@ const mostrar = (players) => {
                     <td id="name" ><a href="#" style='color: white'>${player.name}</a></td>
                     <td id="class">${player.class}</td>
                     <td id="itemLvl">${player.itemLvl}</td>
-                    <td><a href="#" onclick="maxDps(this.parentElement, this.textContent)" style='color: white'>${formateoLoco(player.maxDps)} M</a></td>
-                    <td><a href="#" onclick="minDps(this.parentElement)" style='color: white'>${formateoLoco(player.minDps)} M</a></td>
+                    <td>${formateoLoco(player.maxDps)} M</td>
+                    <td>${formateoLoco(player.minDps)} M</td>
                     <td>${formateoLoco(player.averageDps)} M</td>
                     <td>${player.tries}</td>
                     <td>${player.clears}</td>
