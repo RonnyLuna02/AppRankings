@@ -29,11 +29,9 @@ const saveAllLogs = (file) => {
                     console.log('Id log bug: ' + element.id)
                 } else {
                     saveLog(element, (error) => {
-                        // console.log('element ' + element.old_id + ' id try ' + element.old_id)
                         if (error) {
-                            console.log(element.old_id)
+                            console.log(error)
                         } else {
-                            // console.log('Log ' + element.old_id + ' ingresado')
                         }
                     });
                 }
@@ -58,7 +56,7 @@ const saveAllLogs = (file) => {
 const saveLog = (element, callback) => {
 
     const sql = `INSERT INTO log ( name, tryId, entityType, npcId, currentHp, maxHp, class, gearLvl, dps, entityDmgDealt, dead, deathTime, counter, backAttack, frontAttack, critDmg, dmgTaken, buffUpTime, buffIdentity, fightEndTime, fightStartTime, localPlayer, nameBoss, duration, totalDmgDealt, topDmgDealt, totalDmgTaken, topDmgTaken, tryTotalDps, difficulty, cleared, region, tryPlayers, engravings, playerId) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
-    appDb.run(sql, [element.name, element.old_id, element.entity_type, element.npc_id, element.current_hp, element.max_hp, element.class,
+    appDb.run(sql, [element.name, element.id, element.entity_type, element.npc_id, element.current_hp, element.max_hp, element.class,
     Math.floor(element.gear_score), element.dps, JSON.parse(element.damage_stats).damageDealt, element.is_dead,
     JSON.parse(element.damage_stats).deathTime, JSON.parse(element.skill_stats).counters, JSON.parse(element.damage_stats).backAttackDamage,
     JSON.parse(element.damage_stats).frontAttackDamage, JSON.parse(element.damage_stats).critDamage, JSON.parse(element.damage_stats).damageTaken, 0, 0,
@@ -88,14 +86,14 @@ function playerMain(nombres) {
 };
 
 const readEncounters = (db, callback) => {
-    const sql = `SELECT encounter.old_id, encounter.last_combat_packet, encounter.fight_start, encounter.local_player,
+    const sql = `SELECT encounter.id, encounter.last_combat_packet, encounter.fight_start, encounter.local_player,
     encounter.current_boss, encounter.duration, encounter.total_damage_dealt, encounter.top_damage_dealt,
     encounter.total_damage_taken, encounter.top_damage_taken, encounter.dps AS tryTotalDps, encounter.difficulty,
     encounter.cleared, encounter.misc, entity.*
     FROM encounter
-    LEFT JOIN entity ON encounter.old_id = entity.encounter_id
+    LEFT JOIN entity ON encounter.id = entity.encounter_id
     WHERE encounter.difficulty = 'Normal' OR encounter.difficulty = 'Hard';
-    ORDER BY encounter.old_id;`;
+    ORDER BY encounter.id;`;
     db.all(sql, [], callback)
 };
 
