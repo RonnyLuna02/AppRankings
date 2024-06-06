@@ -1,5 +1,5 @@
 const express = require('express');
-const { saveAllLogs, readLogsThaemine, readLogsVoldis, readLogsAkkan } = require('./crud');
+const { saveAllLogs, readLogsThaemine, readLogsVoldis, readLogsAkkan, readMaxDps, readMinDps } = require('./crud');
 const multer = require('multer');
 const cors = require('cors');
 const upload = multer({ dest: 'logs/' });
@@ -117,12 +117,48 @@ function totalDmgDealt(percent, raid, gate, difficulty) {
 function removeDuplicates(arr) {
     let unique = [];
     arr.forEach(element => {
-        if (!unique.includes(element.name) && (element.entityType === 'PLAYER')) {
+        if (!unique.includes(element.name)) {
             unique.push(element.name);
         }
     });
     return unique;
 }
+
+app.get('/minDps/:raid/:difficulty/:id/:dmg/:name', (req, res) => {
+    let maxDpsName = req.params.name;
+    let raid = req.params.raid;
+    let difficulty = req.params.difficulty;
+    let gate = req.params.id;
+    let dmgProgress = req.params.dmg;
+
+    readMaxDps(maxDpsName, raid, difficulty, gate, dmgProgress, (err, rows) => {
+
+        if (err) {
+            return res.status(400).send(err)
+        } else {
+            res.status(200).send(rows)
+        }
+    })
+})
+
+app.get('/minDps/:raid/:difficulty/:id/:dmg', (req, res) => {
+    let minDpsName = req.params.name;
+    let raid = req.params.raid;
+    let difficulty = req.params.difficulty;
+    let gate = req.params.id;
+    let dmgProgress = req.params.dmg;
+
+    readMinDps(minDpsName, raid, difficulty, gate, dmgProgress, (err, rows) => {
+
+        if (err) {
+            return res.status(400).send(err)
+        } else {
+            res.status(200).send(rows)
+        }
+    })
+
+})
+
 
 app.get('/:raid/:difficulty/:id/:dmg', (req, res) => {
 

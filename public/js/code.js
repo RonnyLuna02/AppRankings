@@ -1,13 +1,13 @@
 const url = '/'
-const contenedor = document.querySelector('tbody')
-let searchInput = document.getElementById('search')
-let searchClass = document.getElementById('searchClass')
-let iLvlInput = document.getElementById('searchItemLvl')
+const contenedor = document.querySelector('tbody');
+let searchInput = document.getElementById('search');
+let searchClass = document.getElementById('searchClass');
+let iLvlInput = document.getElementById('searchItemLvl');
 let btns = document.querySelectorAll('input');
 let blockBtns = document.querySelectorAll('btn');
+let logTable = document.getElementById('logTable');
 var rows;
 let resultados = '';
-
 const form = document.getElementById('fileForm');
 
 form.addEventListener('submit', (event) => {
@@ -25,14 +25,40 @@ form.addEventListener('submit', (event) => {
     event.preventDefault();
 });
 
+// function maxDps(playerName) {
+//     let maxDpsName = playerName.parentElement.id;
+//     let maxDps = playerName.value;
+//     let raid = document.querySelector("input[name=btnRaid]:checked").value
+//     let raidDifficulty = document.querySelector("input[name=btnDifficulty]:checked").value
+//     let gate = document.querySelector("input[name=btnGate]:checked").value
+//     let gateProgress = document.querySelector("input[name=btnDmgDealt]:checked").value
+
+//     fetch(url + raid + '/' + difficulty + '/' + id + '/' + maxDps + '/' + maxDpsName)
+//         .then(response => response.json())
+//         .then(data => mostrar(data))
+//         .catch(error => console.log(error));
+
+//     debugger
+// }
+
+// function minDps(name) {
+//     let minDpsName = playerName.parentElement.id;
+//     let raid = document.querySelector("input[name=btnRaid]:checked").value
+//     let raidDifficulty = document.querySelector("input[name=btnDifficulty]:checked").value
+//     let gate = document.querySelector("input[name=btnGate]:checked").value
+//     let gateProgress = document.querySelector("input[name=btnDmgDealt]:checked").value
+//     debugger
+
+// }
+
 function showImg() {
-    document.getElementById('imgaFolder').style.backgroundImage = 'url(/folder.png)'
-    document.getElementById('imgaFolder').style.backgroundSize = 'contain'
-    document.getElementById('imgaFolder').style.backgroundRepeat = 'no-repeat'
+    document.getElementById('imgFolder').style.backgroundImage = 'url(/folder.png)'
+    document.getElementById('imgFolder').style.backgroundSize = 'contain'
+    document.getElementById('imgFolder').style.backgroundRepeat = 'no-repeat'
 }
 
 function hideImg() {
-    document.getElementById('imgaFolder').style.backgroundImage = ''
+    document.getElementById('imgFolder').style.backgroundImage = ''
 }
 
 searchInput.addEventListener('keyup', function (event) {
@@ -55,7 +81,6 @@ iLvlInput.addEventListener('keyup', function (event) {
         rows.forEach((row) => {
             if (row.querySelector('#itemLvl').textContent > q) {
                 row.style.display = 'none'
-                debugger
             } else {
                 row.style.display = 'table-row'
             }
@@ -72,13 +97,13 @@ const mostrar = (players) => {
     players.sort((a, b) => b.maxDps - a.maxDps);
     players.forEach(player => {
         id++
-        resultados += `<tr>
+        resultados += `<tr id="${player.name}">
                     <td>${id}</td>
-                    <td id="name">${player.name}</td>
+                    <td id="name" ><a href="#" style='color: white'>${player.name}</a></td>
                     <td id="class">${player.class}</td>
                     <td id="itemLvl">${player.itemLvl}</td>
-                    <td>${formateoLoco(player.maxDps)} M</td>
-                    <td>${formateoLoco(player.minDps)} M</td>
+                    <td><a href="#" onclick="maxDps(this.parentElement, this.textContent)" style='color: white'>${formateoLoco(player.maxDps)} M</a></td>
+                    <td><a href="#" onclick="minDps(this.parentElement)" style='color: white'>${formateoLoco(player.minDps)} M</a></td>
                     <td>${formateoLoco(player.averageDps)} M</td>
                     <td>${player.tries}</td>
                     <td>${player.clears}</td>

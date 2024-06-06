@@ -99,19 +99,28 @@ const readEncounters = (db, callback) => {
 };
 
 const readLogsThaemine = (difficulty, callback) => {
-    const sql = `SELECT * FROM log WHERE name GLOB '*[^1-9]*' AND localPlayer GLOB '*[^1-9]*' AND difficulty = '${difficulty}' AND (nameBoss = 'Killineza the Dark Worshipper' OR nameBoss = 'Valinak, Herald of the End' OR nameBoss = 'Valinak, Taboo Usurper' OR nameBoss = 'Valinak, Herald of the End' OR nameBoss = 'Thaemine the Lightqueller' OR nameBoss = 'Dark Greatsword')`;
+    const sql = `SELECT name, class, gearLvl, dps, entityDmgDealt, nameBoss, totalDmgDealt, totalDmgTaken, cleared, tryPlayers FROM log WHERE name GLOB '*[^1-9]*' AND localPlayer GLOB '*[^1-9]*' AND difficulty = '${difficulty}' AND entityType = 'PLAYER' AND class != 'Bard' AND class != 'Paladin' AND class != 'Artist' AND (nameBoss = 'Killineza the Dark Worshipper' OR nameBoss = 'Valinak, Herald of the End' OR nameBoss = 'Valinak, Taboo Usurper' OR nameBoss = 'Valinak, Herald of the End' OR nameBoss = 'Thaemine the Lightqueller' OR nameBoss = 'Dark Greatsword')`;
     appDb.all(sql, [], callback)
 };
 
 const readLogsVoldis = (difficulty, callback) => {
-    const sql = `SELECT * FROM log WHERE name GLOB '*[^1-9]*' AND localPlayer GLOB '*[^1-9]*' AND difficulty = '${difficulty}' AND (nameBoss = 'Kaltaya, the Blooming Chaos' OR nameBoss = 'Rakathus, the Lurking Arrogance' OR nameBoss = 'Firehorn, Trampler of Earth' OR nameBoss = 'Lazaram, the Trailblazer')`;
+    const sql = `SELECT name, class, gearLvl, dps, entityDmgDealt, nameBoss, totalDmgDealt, totalDmgTaken, cleared, tryPlayers FROM log WHERE name GLOB '*[^1-9]*' AND localPlayer GLOB '*[^1-9]*' AND difficulty = '${difficulty}' AND entityType = 'PLAYER' AND class != 'Bard' AND class != 'Paladin' AND class != 'Artist' AND (nameBoss = 'Kaltaya, the Blooming Chaos' OR nameBoss = 'Rakathus, the Lurking Arrogance' OR nameBoss = 'Firehorn, Trampler of Earth' OR nameBoss = 'Lazaram, the Trailblazer')`;
     appDb.all(sql, [], callback)
 };
 
 const readLogsAkkan = (difficulty, callback) => {
-    const sql = `SELECT * FROM log WHERE name GLOB '*[^1-9]*' AND localPlayer GLOB '*[^1-9]*' AND difficulty = '${difficulty}' AND (nameBoss = 'Lord of Degradation Akkan' OR nameBoss = 'Evolved Maurug' OR nameBoss = 'Griefbringer Maurug' OR nameBoss = 'Plague Legion Commander Akkan' OR nameBoss = 'Lord of Kartheon Akkan')`;
+    const sql = `SELECT name, class, gearLvl, dps, entityDmgDealt, nameBoss, totalDmgDealt, totalDmgTaken, cleared, tryPlayers FROM log WHERE name GLOB '*[^1-9]*' AND localPlayer GLOB '*[^1-9]*' AND difficulty = '${difficulty}' AND entityType = 'PLAYER' AND class != 'Bard' AND class != 'Paladin' AND class != 'Artist' AND (nameBoss = 'Lord of Degradation Akkan' OR nameBoss = 'Evolved Maurug' OR nameBoss = 'Griefbringer Maurug' OR nameBoss = 'Plague Legion Commander Akkan' OR nameBoss = 'Lord of Kartheon Akkan')`;
     appDb.all(sql, [], callback)
 };
 
+const readMinDps = (difficulty, callback) => {
+    const sql = `SELECT name, class, gearLvl, tryId, dead, deathTime, counter, backAttack, frontAttack, critDmg, dmgTaken, fightEndTime, fightStartTime, duration, tryTotalDps, dps, entityDmgDealt, nameBoss, totalDmgDealt, totalDmgTaken, cleared, tryPlayers FROM log WHERE name GLOB '*[^1-9]*' AND localPlayer GLOB '*[^1-9]*' AND difficulty = '${difficulty}' AND entityType = 'PLAYER' AND class != 'Bard' AND class != 'Paladin' AND class != 'Artist'`;
+    appDb.all(sql, [], callback)
+};
 
-module.exports = { saveAllLogs, readLogsThaemine, readLogsVoldis, readLogsAkkan };
+const readMaxDps = (difficulty, callback) => {
+    const sql = `SELECT name, class, gearLvl, tryId, dead, deathTime, counter, backAttack, frontAttack, critDmg, dmgTaken, fightEndTime, fightStartTime, duration, tryTotalDps, dps, entityDmgDealt, nameBoss, totalDmgDealt, totalDmgTaken, cleared, tryPlayers FROM log WHERE name GLOB '*[^1-9]*' AND localPlayer GLOB '*[^1-9]*' AND difficulty = '${difficulty}' AND entityType = 'PLAYER' AND class != 'Bard' AND class != 'Paladin' AND class != 'Artist'`;
+    appDb.all(sql, [], callback)
+};
+
+module.exports = { saveAllLogs, readLogsThaemine, readLogsVoldis, readLogsAkkan, readMaxDps, readMinDps };

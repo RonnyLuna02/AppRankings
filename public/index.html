@@ -96,7 +96,7 @@
             <span class="input-group-text bg-secondary text-white me-1">Min raid progress:</span>
             <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
               <input type="radio" class="btn-check" name="btnDmgDealt" id="btnDmgDealt1" value="0" autocomplete="off"
-                onchange="handleRadio(this, 'dmg')" >
+                onchange="handleRadio(this, 'dmg')">
               <label class="btn btn-outline-light" for="btnDmgDealt1" hidden>0%</label>
 
               <input type="radio" class="btn-check" name="btnDmgDealt" id="btnDmgDealt2" value="20" autocomplete="off"
@@ -116,28 +116,49 @@
           </div>
         </div>
       </div>
-      <div id="imgaFolder" class="col"></div>
+      <div id="imgFolder" class="col"></div>
     </div>
     <div class="row">
       <div class="col-2"></div>
       <div class="col">
-        <table id="players" class="table table-striped table-dark">
-          <thead>
-            <tr>
-              <th>Rank</th>
-              <th>Name</th>
-              <th>Class</th>
-              <th>Item Lvl</th>
-              <th>Max Dps</th>
-              <th>Min Dps</th>
-              <th>Average Dps</th>
-              <th>Tries</th>
-              <th>Clears</th>
-            </tr>
-          </thead>
-          <tbody id="test">
-          </tbody>
-        </table>
+        <div class="row">
+          <table id="players" class="table table-striped table-dark">
+            <thead>
+              <tr>
+                <th>Rank</th>
+                <th>Name</th>
+                <th>Class</th>
+                <th>Item Lvl</th>
+                <th>Max Dps</th>
+                <th>Min Dps</th>
+                <th>Average Dps</th>
+                <th>Tries</th>
+                <th>Clears</th>
+              </tr>
+            </thead>
+            <tbody id="test">
+            </tbody>
+          </table>
+          <table id="logTable" class="table table-striped table-dark" hidden>
+            <thead>
+              <tr>
+                <th></th>
+                <th></th>
+                <th>Name</th>
+                <th>Dead for</th>
+                <th>DMG</th>
+                <th>Dps</th>
+                <th>D%</th>
+                <th>Crit</th>
+                <th>FA</th>
+                <th>BA</th>
+                <th>Counters</th>
+              </tr>
+            </thead>
+            <tbody id="logBody">
+            </tbody>
+          </table>
+        </div>
       </div>
       <div class="col-2"></div>
     </div>
