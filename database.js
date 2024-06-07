@@ -26,6 +26,13 @@ let appDb = new sqlite3.Database(mainDb, (err) => {
         //         console.log('Encounter table created or existed')
         //     }
         // });
+        appDb.run('CREATE TABLE IF NOT EXISTS logsUploader (id INTEGER PRIMARY KEY AUTOINCREMENT, localName TEXT, dateNow INTEGER)', (err) => {
+            if (err) {
+                console.error(err.message)
+            } else {
+                console.log('Encounter table created or existed')
+            }
+        });
     }
 })
 

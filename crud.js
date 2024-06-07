@@ -1,7 +1,6 @@
 const { CLIENT_RENEG_WINDOW } = require('node:tls');
 const appDb = require('./database');
-const fs = require('node:fs');
-const { ifError } = require('node:assert');
+const fs = require('fs');
 const sqlite3 = require('sqlite3').verbose();
 
 let encounterDb;
@@ -10,67 +9,70 @@ const saveAllLogs = (file) => {
 
     let mainList = [];
     encounterDb = {};
-    let uploadedDb = `${renameFile(file)}`;
+    let uploadedDb = file.path;
     encounterDb = new sqlite3.Database(uploadedDb, (err) => {
         if (err) {
             console.error(err.message)
         } else {
-            console.log("Connected to encounters.db")
-        }
-    });
-
-    readEncounters(encounterDb, (err, rows) => {
-        if (err) {
-            console.log(err.message)
-        } else {
-            rows.forEach(element => {
-                mainList.push(element.local_player);
-                if ((element.fight_start === 0) || (element.last_combat_packet === 0)) {
-                    console.log('Id log bug: ' + element.id)
+            console.log("Connected to " + file.originalname)
+            readEncounters(encounterDb, (err, rows) => {
+                if (err) {
+                    console.log(err.message)
                 } else {
-                    saveLog(element, (error) => {
+                    rows.forEach(element => {
+                        mainList.push(element.local_player);
+                        if ((element.fight_start === 0) || (element.last_combat_packet === 0)) {
+                            console.log('Id log bug: ' + element.id)
+                        } else {
+                            saveLog(element, (error) => {
+                                if (error) {
+                                    console.log(error)
+                                } else {
+                                }
+                            });
+                        }
+                    });
+                    encounterDb.close((error) => {
                         if (error) {
                             console.log(error)
                         } else {
+                            saveUploader(playerMain(mainList), (error) => {
+                                if (error) {
+                                    console.log(error)
+                                }
+                            });
+                            fs.unlink(file.path, function (err) {
+                                if (err) {
+                                    console.error(err);
+                                }
+                                console.log('File: ' + file.originalname + ' deleted');
+                            });
                         }
                     });
                 }
             });
-            encounterDb.close((error) => {
-                if (error) {
-                    console.log(error)
-                } else {
-                    fs.renameSync(uploadedDb, `./data/logs/${playerMain(mainList)}-` + Date.now() + '.db', (err) => {
-                        if (err) {
-                            console.log(err)
-                        } else {
-                            console.log('encounters.db cambiado')
-                        }
-                    })
-                }
-            });
         }
     });
 };
 
-const saveLog = (element, callback) => {
-
-    const sql = `INSERT INTO log ( name, tryId, entityType, npcId, currentHp, maxHp, class, gearLvl, dps, entityDmgDealt, dead, deathTime, counter, backAttack, frontAttack, critDmg, dmgTaken, buffUpTime, buffIdentity, fightEndTime, fightStartTime, localPlayer, nameBoss, duration, totalDmgDealt, topDmgDealt, totalDmgTaken, topDmgTaken, tryTotalDps, difficulty, cleared, region, tryPlayers, engravings, playerId) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
-    appDb.run(sql, [element.name, element.id, element.entity_type, element.npc_id, element.current_hp, element.max_hp, element.class,
-    Math.floor(element.gear_score), element.dps, JSON.parse(element.damage_stats).damageDealt, element.is_dead,
-    JSON.parse(element.damage_stats).deathTime, JSON.parse(element.skill_stats).counters, JSON.parse(element.damage_stats).backAttackDamage,
-    JSON.parse(element.damage_stats).frontAttackDamage, JSON.parse(element.damage_stats).critDamage, JSON.parse(element.damage_stats).damageTaken, 0, 0,
-    element.last_combat_packet, element.fight_start, element.local_player, element.current_boss, element.duration, element.total_damage_dealt, element.top_damage_dealt,
-    element.total_damage_taken, element.top_damage_taken, element.tryTotalDps, element.difficulty, element.cleared, JSON.parse(element.misc).region,
-    JSON.stringify(JSON.parse(element.misc).partyInfo), element.engravings, element.character_id], callback)
+const saveUploader = (element, callback) => {
+    const sql = `INSERT INTO logsUploader ( localName, dateNow ) VALUES (?, ?)`
+    appDb.run(sql, [element, Date.now()], callback)
 };
 
-function renameFile(dbFile) {
+const saveLog = (element, callback) => {
 
-    const newPath = `${dbFile.path}.db`
-    fs.renameSync(dbFile.path, newPath);
-    return newPath;
-}
+    if (JSON.parse(element.damage_stats) != null) {
+        const sql = `INSERT INTO log ( name, tryId, entityType, npcId, currentHp, maxHp, class, gearLvl, dps, entityDmgDealt, dead, deathTime, counter, backAttack, frontAttack, critDmg, dmgTaken, buffUpTime, buffIdentity, fightEndTime, fightStartTime, localPlayer, nameBoss, duration, totalDmgDealt, topDmgDealt, totalDmgTaken, topDmgTaken, tryTotalDps, difficulty, cleared, region, tryPlayers, engravings, playerId) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+        appDb.run(sql, [element.name, element.id, element.entity_type, element.npc_id, element.current_hp, element.max_hp, element.class,
+        Math.floor(element.gear_score), element.dps, JSON.parse(element.damage_stats).damageDealt, element.is_dead,
+        JSON.parse(element.damage_stats).deathTime, JSON.parse(element.skill_stats).counters, JSON.parse(element.damage_stats).backAttackDamage,
+        JSON.parse(element.damage_stats).frontAttackDamage, JSON.parse(element.damage_stats).critDamage, JSON.parse(element.damage_stats).damageTaken, 0, 0,
+        element.last_combat_packet, element.fight_start, element.local_player, element.current_boss, element.duration, element.total_damage_dealt, element.top_damage_dealt,
+        element.total_damage_taken, element.top_damage_taken, element.tryTotalDps, element.difficulty, element.cleared, JSON.parse(element.misc).region,
+        JSON.stringify(JSON.parse(element.misc).partyInfo), element.engravings, element.character_id], callback)
+    }
+};
 
 function playerMain(nombres) {
     let element = nombres.reduce((accVal, val) => ((accVal[val] = (accVal[val] || 0) + 1), accVal), {});

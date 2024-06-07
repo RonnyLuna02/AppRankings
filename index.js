@@ -1,9 +1,8 @@
 const express = require('express');
 const { saveAllLogs, readLogsThaemine, readLogsVoldis, readLogsAkkan, readMaxDps, readMinDps } = require('./crud');
 const multer = require('multer');
-const cors = require('cors');
-const upload = multer({ dest: 'data/logs/' });
 const path = require('path');
+const cors = require('cors');
 const app = express();
 
 require('dotenv').config()
@@ -14,13 +13,23 @@ app.use(express.json());
 app.use(cors());
 app.use(express.static('public'))
 
+const storage = multer.diskStorage({
+    destination: (req, file, callback) => {
+        callback(null, 'data/logs/')
+    },
+    filename: (req, file, callback) => {
+        callback(null, Date.now() + '-' + file.originalname)
+    }
+})
+
+const upload = multer({ storage: storage });
+
 app.get('/', (req, res) => {
     res.sendFile('index.html', { root: path.join(__dirname, 'public') })
 });
 
 app.post('/api', upload.single('logs'), (req, res) => {
-    const file = req.file;
-    if (!file) {
+    if (!req.file) {
         return res.status(400).send('No file included')
     }
     saveAllLogs(req.file)
