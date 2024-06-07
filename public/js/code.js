@@ -25,31 +25,27 @@ form.addEventListener('submit', (event) => {
     event.preventDefault();
 });
 
-// function maxDps(playerName) {
-//     let maxDpsName = playerName.parentElement.id;
-//     let maxDps = playerName.value;
-//     let raid = document.querySelector("input[name=btnRaid]:checked").value
-//     let raidDifficulty = document.querySelector("input[name=btnDifficulty]:checked").value
-//     let gate = document.querySelector("input[name=btnGate]:checked").value
-//     let gateProgress = document.querySelector("input[name=btnDmgDealt]:checked").value
+function maxDps(playerName) {
+    let maxDpsName = playerName.parentElement.id;
+    let raid = document.querySelector("input[name=btnRaid]:checked").value
+    let raidDifficulty = document.querySelector("input[name=btnDifficulty]:checked").value
+    let gate = document.querySelector("input[name=btnGate]:checked").value
+    let gateProgress = document.querySelector("input[name=btnDmgDealt]:checked").value
 
-//     fetch(url + raid + '/' + difficulty + '/' + id + '/' + maxDps + '/' + maxDpsName)
-//         .then(response => response.json())
-//         .then(data => mostrar(data))
-//         .catch(error => console.log(error));
+    fetch(url + 'maxdps/' + raid + '/' + difficulty + '/' + id + '/' + gateProgress + '/' + maxDpsName)
+        .then(response => response.json())
+        .then(data => mostrarTry(data))
+        .catch(error => console.log(error));
+}
 
-//     debugger
-// }
+function minDps(name) {
+    let minDpsName = playerName.parentElement.id;
+    let raid = document.querySelector("input[name=btnRaid]:checked").value
+    let raidDifficulty = document.querySelector("input[name=btnDifficulty]:checked").value
+    let gate = document.querySelector("input[name=btnGate]:checked").value
+    let gateProgress = document.querySelector("input[name=btnDmgDealt]:checked").value
 
-// function minDps(name) {
-//     let minDpsName = playerName.parentElement.id;
-//     let raid = document.querySelector("input[name=btnRaid]:checked").value
-//     let raidDifficulty = document.querySelector("input[name=btnDifficulty]:checked").value
-//     let gate = document.querySelector("input[name=btnGate]:checked").value
-//     let gateProgress = document.querySelector("input[name=btnDmgDealt]:checked").value
-//     debugger
-
-// }
+}
 
 function showImg() {
     document.getElementById('imgFolder').style.backgroundImage = 'url(/folder.png)'
@@ -92,6 +88,10 @@ iLvlInput.addEventListener('keyup', function (event) {
     }
 });
 
+const mostrarTry = (tryPlayers) => {
+
+}
+
 const mostrar = (players) => {
     let id = 0;
     players.sort((a, b) => b.maxDps - a.maxDps);
@@ -102,8 +102,8 @@ const mostrar = (players) => {
                     <td id="name" ><a href="#" style='color: white'>${player.name}</a></td>
                     <td id="class">${player.class}</td>
                     <td id="itemLvl">${player.itemLvl}</td>
-                    <td>${formateoLoco(player.maxDps)} M</td>
-                    <td>${formateoLoco(player.minDps)} M</td>
+                    <td><a href="#" style='color: white' onclick="maxDps(this.parentElement)">${formateoLoco(player.maxDps)} M</a></td>
+                    <td><a href="#" style='color: white' onclick="minDps(this.parentElement)">${formateoLoco(player.minDps)} M</a></td>
                     <td>${formateoLoco(player.averageDps)} M</td>
                     <td>${player.tries}</td>
                     <td>${player.clears}</td>

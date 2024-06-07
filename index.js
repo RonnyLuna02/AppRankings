@@ -1,8 +1,9 @@
 const express = require('express');
-const { saveAllLogs, readLogsThaemine, readLogsVoldis, readLogsAkkan, readMaxDps, readMinDps } = require('./crud');
+const { saveAllLogs, readLogsThaemine, readLogsVoldis, readLogsAkkan, readMaxDps, readMinDps, getTryPlayers } = require('./crud');
 const multer = require('multer');
 const path = require('path');
 const cors = require('cors');
+const { log } = require('console');
 const app = express();
 
 require('dotenv').config()
@@ -22,7 +23,7 @@ const storage = multer.diskStorage({
     }
 })
 
-const upload = multer({ storage: storage });
+const upload = multer({ storage: storage, limits: { fileSize: 15000 * 1024 * 1024 } });
 
 app.get('/', (req, res) => {
     res.sendFile('index.html', { root: path.join(__dirname, 'public') })
@@ -33,9 +34,8 @@ app.post('/api', upload.single('logs'), (req, res) => {
         return res.status(400).send('No file included')
     }
     saveAllLogs(req.file)
-    res.status(200).send('Saved')
+    res.status(200).send('Uploaded')
 });
-
 
 app.listen(port, () => {
     console.log("Server is Running on port " + port)
@@ -123,7 +123,6 @@ function totalDmgDealt(percent, raid, gate, difficulty) {
             break;
     }
 }
-
 function removeDuplicates(arr) {
     let unique = [];
     arr.forEach(element => {
@@ -133,43 +132,46 @@ function removeDuplicates(arr) {
     });
     return unique;
 }
-
-app.get('/minDps/:raid/:difficulty/:id/:dmg/:name', (req, res) => {
-    let maxDpsName = req.params.name;
-    let raid = req.params.raid;
-    let difficulty = req.params.difficulty;
-    let gate = req.params.id;
-    let dmgProgress = req.params.dmg;
-
-    readMaxDps(maxDpsName, raid, difficulty, gate, dmgProgress, (err, rows) => {
-
+app.get('/maxdps/:raid/:difficulty/:id/:dmg/:name', (req, res) => {
+    let dmgProgress = totalDmgDealt(req.params.dmg, req.params.raid, req.params.id, req.params.difficulty)
+    readMaxDps(req.params.name, req.params.raid, req.params.difficulty, req.params.id, dmgProgress, (err, row) => {
         if (err) {
-            return res.status(400).send(err)
+            console.log(err);
+            return res.status(500).json(err.message)
         } else {
-            res.status(200).send(rows)
+            console.log(row)
+            let cleared = row[0].cleared;
+            getTryPlayers(row[0].tryId, row[0].totalDmgTaken, row[0].nameBoss, (err, rows) => {
+                if (err) {
+                    console.log(err.message);
+                    return res.status(500).json(err.message)
+                } else {
+                    return res.status(200).json(rows)
+                }
+            })
         }
     })
 })
-
 app.get('/minDps/:raid/:difficulty/:id/:dmg', (req, res) => {
-    let minDpsName = req.params.name;
-    let raid = req.params.raid;
-    let difficulty = req.params.difficulty;
-    let gate = req.params.id;
-    let dmgProgress = req.params.dmg;
-
-    readMinDps(minDpsName, raid, difficulty, gate, dmgProgress, (err, rows) => {
-
+    let dmgProgress = totalDmgDealt(req.params.dmg, req.params.raid, req.params.id, req.params.difficulty)
+    readMinDps(req.params.name, req.params.raid, req.params.difficulty, req.params.id, dmgProgress, (err, row) => {
         if (err) {
-            return res.status(400).send(err)
+            console.log(err);
+            return res.status(500).json(err.message)
         } else {
-            res.status(200).send(rows)
+            console.log(row)
+            let cleared = row[0].cleared;
+            getTryPlayers(row[0].tryId, row[0].totalDmgTaken, row[0].nameBoss, (err, rows) => {
+                if (err) {
+                    console.log(err.message);
+                    return res.status(500).json(err.message)
+                } else {
+                    return res.status(200).json(rows)
+                }
+            })
         }
     })
-
 })
-
-
 app.get('/:raid/:difficulty/:id/:dmg', (req, res) => {
 
     const id = req.params.id;
