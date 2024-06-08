@@ -26,24 +26,31 @@ form.addEventListener('submit', (event) => {
 });
 
 function maxDps(playerName) {
+    let tryMaxDps = playerName.id;
     let maxDpsName = playerName.parentElement.id;
     let raid = document.querySelector("input[name=btnRaid]:checked").value
     let raidDifficulty = document.querySelector("input[name=btnDifficulty]:checked").value
     let gate = document.querySelector("input[name=btnGate]:checked").value
     let gateProgress = document.querySelector("input[name=btnDmgDealt]:checked").value
 
-    fetch(url + 'maxdps/' + raid + '/' + difficulty + '/' + id + '/' + gateProgress + '/' + maxDpsName)
+    fetch(url + 'maxdps/' + raid + '/' + difficulty + '/' + id + '/' + gateProgress + '/' + maxDpsName + '/' + tryMaxDps)
         .then(response => response.json())
-        .then(data => mostrarTry(data))
+        .then(data => mostrarTry(data, maxDpsName))
         .catch(error => console.log(error));
 }
 
-function minDps(name) {
+function minDps(playerName) {
+    let tryMinDps = playerName.id;
     let minDpsName = playerName.parentElement.id;
     let raid = document.querySelector("input[name=btnRaid]:checked").value
     let raidDifficulty = document.querySelector("input[name=btnDifficulty]:checked").value
     let gate = document.querySelector("input[name=btnGate]:checked").value
     let gateProgress = document.querySelector("input[name=btnDmgDealt]:checked").value
+
+    fetch(url + 'mindps/' + raid + '/' + difficulty + '/' + id + '/' + gateProgress + '/' + minDpsName + '/' + tryMinDps)
+        .then(response => response.json())
+        .then(data => mostrarTry(data, minDpsName))
+        .catch(error => console.log(error));
 
 }
 
@@ -88,12 +95,42 @@ iLvlInput.addEventListener('keyup', function (event) {
     }
 });
 
-const mostrarTry = (tryPlayers) => {
-
+const mostrarTry = (rows, name) => {
+    resultados = '';
+    let logBody = document.getElementById('logBody');
+    let clear = rows[0];
+    let tryPlayers = [];
+    rows[1].forEach(e => {
+        tryPlayers.push(e);
+    })
+    var arrays = document.querySelectorAll('tbody tr')
+    arrays.forEach(tr => tr.id != name ? (tr.style.display = 'none') : (tr.display = 'table-row'))
+    logTable.hidden = false;
+    tryPlayers.sort((a, b) => b.entityDmgDealt - a.entityDmgDealt);
+    debugger
+    tryPlayers.forEach(player => {
+        resultados += `<tr id="${player.name}">
+                    <td><img src="/icons/${player.class}.png" class="img-fluid " style="width: 30px;" alt="${player.class}"></td>
+                    <td>${player.gearLvl}</td>
+                    <td id="name" ><a href="#" style='color: white'>${player.name}</a></td>
+                    <td>100s</td>
+                    <td>${formatMill(player.dps)} m</td>
+                    <td>${formatBill(player.entityDmgDealt)} b</td>
+                    <td>${((100 * player.entityDmgDealt) / player.totalDmgDealt).toFixed(1)}%</td>
+                    <td>${((100 * player.critDmg) / player.entityDmgDealt).toFixed(1)}%</td>
+                    <td>${((100 * player.frontAttack) / player.entityDmgDealt).toFixed(1)}%</td>
+                    <td>${((100 * player.backAttack) / player.entityDmgDealt).toFixed(1)}%</td>
+                    <td>${player.counter}</td>
+                </tr>
+                `
+    })
+    logBody.innerHTML = resultados;
+    debugger
 }
 
 const mostrar = (players) => {
     let id = 0;
+    logTable.hidden = true;
     players.sort((a, b) => b.maxDps - a.maxDps);
     players.forEach(player => {
         id++
@@ -102,9 +139,9 @@ const mostrar = (players) => {
                     <td id="name" ><a href="#" style='color: white'>${player.name}</a></td>
                     <td id="class">${player.class}</td>
                     <td id="itemLvl">${player.itemLvl}</td>
-                    <td><a href="#" style='color: white' onclick="maxDps(this.parentElement)">${formateoLoco(player.maxDps)} M</a></td>
-                    <td><a href="#" style='color: white' onclick="minDps(this.parentElement)">${formateoLoco(player.minDps)} M</a></td>
-                    <td>${formateoLoco(player.averageDps)} M</td>
+                    <td id="${player.maxDps}"><a href="#" style='color: white' onclick="maxDps(this.parentElement)">${formatMill(player.maxDps)} m</a></td>
+                    <td id="${player.minDps}"><a href="#" style='color: white' onclick="minDps(this.parentElement)">${formatMill(player.minDps)} m</a></td>
+                    <td>${formatMill(player.averageDps)} m</td>
                     <td>${player.tries}</td>
                     <td>${player.clears}</td>
                 </tr>
@@ -118,8 +155,13 @@ const mostrar = (players) => {
     rows = document.querySelectorAll('tbody tr');
 };
 
-function formateoLoco(number) {
-    let formateado = (number / 1000000).toFixed(2);
+function formatMill(number) {
+    let formateado = (number / 1000000).toFixed(1);
+    return formateado
+}
+
+function formatBill(number) {
+    let formateado = (number / 1000000000).toFixed(1);
     return formateado
 }
 

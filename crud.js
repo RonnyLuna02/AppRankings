@@ -104,39 +104,40 @@ const readLogsAkkan = (difficulty, callback) => {
     const sql = `SELECT name, class, gearLvl, dps, entityDmgDealt, nameBoss, totalDmgDealt, totalDmgTaken, cleared, tryPlayers FROM log WHERE name GLOB '*[^1-9]*' AND localPlayer GLOB '*[^1-9]*' AND difficulty = '${difficulty}' AND entityType = 'PLAYER' AND class != 'Bard' AND class != 'Paladin' AND class != 'Artist' AND (nameBoss = 'Lord of Degradation Akkan' OR nameBoss = 'Evolved Maurug' OR nameBoss = 'Griefbringer Maurug' OR nameBoss = 'Plague Legion Commander Akkan' OR nameBoss = 'Lord of Kartheon Akkan')`;
     appDb.all(sql, [], callback)
 };
-const readMinDps = (minDpsName, raid, difficulty, gate, dmgProgress, callback) => {
-    let tryProgress = "";
-    if (dmgProgress === 100) {
+const readMinDps = (minDpsName, raid, difficulty, gate, dmgProgress, dps, callback) => {
+    let tryProgress;
+    if (dmgProgress == 100) {
         tryProgress = "cleared = 1"
     } else {
         tryProgress = `totalDmgDealt > ${dmgProgress}`
     }
-    const sql = `SELECT tryId, totalDmgTaken, cleared, nameBoss FROM log WHERE dps = (SELECT MIN(dps) FROM log WHERE name = '${maxDpsName}' AND difficulty = '${difficulty}' AND ${getBossName(raid, gate)} AND ${tryProgress} ) LIMIT 1;`
+    const sql = `SELECT tryId, totalDmgTaken, cleared, nameBoss FROM log WHERE ${tryProgress} AND dps = ${dps} AND name = '${minDpsName}' AND difficulty = '${difficulty}' AND ${getBossName(raid, gate)} LIMIT 1;`
     appDb.all(sql, [], callback)
 };
-const readMaxDps = (maxDpsName, raid, difficulty, gate, dmgProgress, callback) => {
-    let tryProgress = "";
-    if (dmgProgress === 100) {
+const readMaxDps = (maxDpsName, raid, difficulty, gate, dmgProgress, dps, callback) => {
+    let tryProgress;
+    if (dmgProgress == 100) {
         tryProgress = "cleared = 1"
     } else {
         tryProgress = `totalDmgDealt > ${dmgProgress}`
     }
-    const sql = `SELECT tryId, totalDmgTaken, cleared, nameBoss FROM log WHERE dps = (SELECT MAX(dps) FROM log WHERE name = '${maxDpsName}' AND difficulty = '${difficulty}' AND ${getBossName(raid, gate)} AND ${tryProgress} ) LIMIT 1;`
+    console.log(maxDpsName + ' ' + raid + ' ' + difficulty + ' ' + gate + ' ' + dmgProgress + ' ' + dps)
+    const sql = `SELECT tryId, totalDmgTaken, cleared, nameBoss FROM log WHERE ${tryProgress} AND dps = ${dps} AND name = '${maxDpsName}' AND difficulty = '${difficulty}' AND ${getBossName(raid, gate)} LIMIT 1;`
     appDb.all(sql, [], callback)
 };
 const getTryPlayers = (tryId, totalDmgTaken, nameBoss, callback) => {
 
-    const sql = `SELECT name, class, gearLvl, dead, deathTime, counter, backAttack, frontAttack, critDmg, dmgTaken, fightEndTime, fightStartTime, duration, tryTotalDps, dps, entityDmgDealt, totalDmgDealt, totalDmgTaken FROM log WHERE tryId = ${tryId} AND totalDmgTaken = ${totalDmgTaken} AND nameBoss = '${nameBoss}';`
+    const sql = `SELECT name, class, gearLvl, dead, deathTime, counter, backAttack, frontAttack, critDmg, dmgTaken, fightEndTime, fightStartTime, duration, tryTotalDps, dps, entityDmgDealt, totalDmgDealt, totalDmgTaken FROM log WHERE tryId = ${tryId} AND totalDmgTaken = ${totalDmgTaken} AND nameBoss = '${nameBoss}' AND entityType = 'PLAYER';`
     appDb.all(sql, [], callback)
 };
 function getBossName(raid, gate) {
     let nameBoss = "";
     switch (raid) {
         case 'akkan':
-            if (gate === 1) {
+            if (gate == 1) {
                 nameBoss = "(nameBoss = 'Evolved Maurug' OR nameBoss = 'Griefbringer Maurug')"
                 return nameBoss
-            } else if (gate === 2) {
+            } else if (gate == 2) {
                 nameBoss = "nameBoss = 'Lord of Degradation Akkan'"
                 return nameBoss
             } else {
@@ -145,13 +146,13 @@ function getBossName(raid, gate) {
             }
             break;
         case 'voldis':
-            if (gate === 1) {
+            if (gate == 1) {
                 nameBoss = "nameBoss = 'Kaltaya, the Blooming Chaos'"
                 return nameBoss
-            } else if (gate === 2) {
+            } else if (gate == 2) {
                 nameBoss = "nameBoss = 'Rakathus, the Lurking Arrogance'"
                 return nameBoss
-            } else if (gate === 3) {
+            } else if (gate == 3) {
                 nameBoss = "nameBoss = 'Firehorn, Trampler of Earth'"
                 return nameBoss
             } else {
@@ -160,10 +161,10 @@ function getBossName(raid, gate) {
             }
             break;
         case 'thaemine':
-            if (gate === 1) {
+            if (gate == 1) {
                 nameBoss = "nameBoss = 'Killineza the Dark Worshipper'"
                 return nameBoss
-            } else if (gate === 2) {
+            } else if (gate == 2) {
                 nameBoss = "(nameBoss = 'Valinak, Herald of the End' OR nameBoss = 'Valinak, Taboo Usurper' OR nameBoss = 'Valinak, Herald of the End')"
                 return nameBoss
             } else {

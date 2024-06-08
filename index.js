@@ -132,41 +132,55 @@ function removeDuplicates(arr) {
     });
     return unique;
 }
-app.get('/maxdps/:raid/:difficulty/:id/:dmg/:name', (req, res) => {
-    let dmgProgress = totalDmgDealt(req.params.dmg, req.params.raid, req.params.id, req.params.difficulty)
-    readMaxDps(req.params.name, req.params.raid, req.params.difficulty, req.params.id, dmgProgress, (err, row) => {
+app.get('/maxdps/:raid/:difficulty/:gate/:dmg/:name/:dps', (req, res) => {
+    let dmgProgress;
+    if (req.params.dmg != 100) {
+        dmgProgress = totalDmgDealt(req.params.dmg, req.params.raid, req.params.gate, req.params.difficulty);
+    } else {
+        dmgProgress = req.params.dmg;
+    }
+    readMaxDps(req.params.name, req.params.raid, req.params.difficulty, req.params.gate, dmgProgress, req.params.dps, (err, row) => {
         if (err) {
             console.log(err);
             return res.status(500).json(err.message)
         } else {
+            let resp = [];
             console.log(row)
-            let cleared = row[0].cleared;
+            resp.push(row[0].cleared)
             getTryPlayers(row[0].tryId, row[0].totalDmgTaken, row[0].nameBoss, (err, rows) => {
                 if (err) {
                     console.log(err.message);
                     return res.status(500).json(err.message)
                 } else {
-                    return res.status(200).json(rows)
+                    resp.push(rows)
+                    return res.status(200).json(resp)
                 }
             })
         }
     })
 })
-app.get('/minDps/:raid/:difficulty/:id/:dmg', (req, res) => {
-    let dmgProgress = totalDmgDealt(req.params.dmg, req.params.raid, req.params.id, req.params.difficulty)
-    readMinDps(req.params.name, req.params.raid, req.params.difficulty, req.params.id, dmgProgress, (err, row) => {
+app.get('/mindps/:raid/:difficulty/:gate/:dmg/:name/:dps', (req, res) => {
+    let dmgProgress;
+    if (req.params.dmg != 100) {
+        dmgProgress = totalDmgDealt(req.params.dmg, req.params.raid, req.params.gate, req.params.difficulty);
+    } else {
+        dmgProgress = req.params.dmg;
+    }
+    readMinDps(req.params.name, req.params.raid, req.params.difficulty, req.params.gate, dmgProgress, req.params.dps, (err, row) => {
         if (err) {
             console.log(err);
             return res.status(500).json(err.message)
         } else {
             console.log(row)
-            let cleared = row[0].cleared;
+            let resp = [];
+            resp.push(row[0].cleared)
             getTryPlayers(row[0].tryId, row[0].totalDmgTaken, row[0].nameBoss, (err, rows) => {
                 if (err) {
                     console.log(err.message);
                     return res.status(500).json(err.message)
                 } else {
-                    return res.status(200).json(rows)
+                    resp.push(rows)
+                    return res.status(200).json(resp)
                 }
             })
         }
