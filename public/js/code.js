@@ -114,10 +114,9 @@ const mostrarTry = (rows, name) => {
                     <td>${player.gearLvl}</td>
                     <td id="name" ><a href="#" style='color: white'>${player.name}</a></td>
                     <td>100s</td>
-                    <td>${formatMill(player.dps)} m</td>
                     <td>${formatBill(player.entityDmgDealt)} b</td>
-                    <td>${((100 * player.entityDmgDealt) / player.totalDmgDealt).toFixed(1)}%</td>
-                    <td>${((100 * player.critDmg) / player.entityDmgDealt).toFixed(1)}%</td>
+                    <td>${formatMill(player.dps)} m</td>
+                    <td>${((100 * player.entityDmgDealt) / player.totalDmgDealt).toFixed(1)}%</td>                    
                     <td>${((100 * player.frontAttack) / player.entityDmgDealt).toFixed(1)}%</td>
                     <td>${((100 * player.backAttack) / player.entityDmgDealt).toFixed(1)}%</td>
                     <td>${player.counter}</td>
