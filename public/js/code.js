@@ -113,7 +113,6 @@ const mostrarTry = (rows, name) => {
                     <td><img src="/icons/${player.class}.png" class="img-fluid " style="width: 30px;" alt="${player.class}"></td>
                     <td>${player.gearLvl}</td>
                     <td id="name" ><a href="#" style='color: white'>${player.name}</a></td>
-                    <td>100s</td>
                     <td>${formatBill(player.entityDmgDealt)} b</td>
                     <td>${formatMill(player.dps)} m</td>
                     <td>${((100 * player.entityDmgDealt) / player.totalDmgDealt).toFixed(1)}%</td>                    

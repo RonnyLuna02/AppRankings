@@ -121,7 +121,6 @@ const readMaxDps = (maxDpsName, raid, difficulty, gate, dmgProgress, dps, callba
     } else {
         tryProgress = `totalDmgDealt > ${dmgProgress}`
     }
-    console.log(maxDpsName + ' ' + raid + ' ' + difficulty + ' ' + gate + ' ' + dmgProgress + ' ' + dps)
     const sql = `SELECT tryId, totalDmgTaken, cleared, nameBoss FROM log WHERE ${tryProgress} AND dps = ${dps} AND name = '${maxDpsName}' AND difficulty = '${difficulty}' AND ${getBossName(raid, gate)} LIMIT 1;`
     appDb.all(sql, [], callback)
 };

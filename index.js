@@ -145,7 +145,6 @@ app.get('/maxdps/:raid/:difficulty/:gate/:dmg/:name/:dps', (req, res) => {
             return res.status(500).json(err.message)
         } else {
             let resp = [];
-            console.log(row)
             resp.push(row[0].cleared)
             getTryPlayers(row[0].tryId, row[0].totalDmgTaken, row[0].nameBoss, (err, rows) => {
                 if (err) {
@@ -171,7 +170,6 @@ app.get('/mindps/:raid/:difficulty/:gate/:dmg/:name/:dps', (req, res) => {
             console.log(err);
             return res.status(500).json(err.message)
         } else {
-            console.log(row)
             let resp = [];
             resp.push(row[0].cleared)
             getTryPlayers(row[0].tryId, row[0].totalDmgTaken, row[0].nameBoss, (err, rows) => {
