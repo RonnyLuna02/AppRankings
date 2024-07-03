@@ -101,7 +101,7 @@ const mostrarTry = (rows, name) => {
     let logBody = document.getElementById('logBody');
     let clear = rows[0];
     let tryPlayers = [];
-    spinner.style.visibility = 'visible';
+    // spinner.style.visibility = 'visible';
     rows[1].forEach(e => {
         tryPlayers.push(e);
     })
@@ -130,11 +130,7 @@ const mostrarTry = (rows, name) => {
 }
 const mostrar = (players) => {
     debugger
-    logTable.hidden = true;
-    spinner.style.visibility = 'visible';
-    debugger
     let id = 0;
-    logTable.hidden = true;
     players.sort((a, b) => b.maxDps - a.maxDps);
     players.forEach(player => {
         id++
@@ -195,6 +191,7 @@ fetch(url + raid + '/' + difficulty + '/' + id + '/' + dmg)
 
 function handleRadio(radio, type) {
     btns.forEach((btn) => { btn.disabled = true });
+    logTable.hidden = true;
     if (type === 'raid') {
         document.getElementById('btnGate3').checked = true;
         banner.style.backgroundPosition = "center";
@@ -234,6 +231,7 @@ function handleRadio(radio, type) {
 
     resultados = '';
     contenedor.innerHTML = resultados;
+    spinner.style.visibility = 'visible';
     fetch(url + raid + '/' + difficulty + '/' + id + '/' + dmg)
         .then(response => response.json())
         .then(data => mostrar(data))
