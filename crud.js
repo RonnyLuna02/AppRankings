@@ -52,9 +52,17 @@ const saveAllLogs = (file) => {
         }
     });
 };
+const updatePlayerName = (newName, oldName, callback) => {
+    const sql = `UPDATE log SET name = ? WHERE name = ?`
+    appDb.run(sql, [newName, oldName], callback)
+};
 const saveUploader = (element, callback) => {
     const sql = `INSERT INTO logsUploader ( localName, dateNow ) VALUES (?, ?)`
     appDb.run(sql, [element, Date.now()], callback)
+};
+const readUploaders = (callback) => {
+    const sql = `SELECT * FROM logsUploader`
+    appDb.all(sql, [], callback)
 };
 const saveLog = (element, callback) => {
 
@@ -91,6 +99,10 @@ const readEncounters = (db, callback) => {
     WHERE encounter.difficulty = 'Normal' OR encounter.difficulty = 'Hard';
     ORDER BY encounter.id;`;
     db.all(sql, [], callback)
+};
+const readLogsEchidna = (difficulty, callback) => {
+    const sql = `SELECT name, class, gearLvl, dps, entityDmgDealt, nameBoss, totalDmgDealt, totalDmgTaken, cleared, tryPlayers FROM log WHERE name GLOB '*[^1-9]*' AND localPlayer GLOB '*[^1-9]*' AND difficulty = '${difficulty}' AND entityType = 'PLAYER' AND class != 'Bard' AND class != 'Paladin' AND class != 'Artist' AND (nameBoss = 'Killineza the Dark Worshipper' OR nameBoss = 'Valinak, Herald of the End' OR nameBoss = 'Valinak, Taboo Usurper' OR nameBoss = 'Valinak, Herald of the End' OR nameBoss = 'Thaemine the Lightqueller' OR nameBoss = 'Dark Greatsword')`;
+    appDb.all(sql, [], callback)
 };
 const readLogsThaemine = (difficulty, callback) => {
     const sql = `SELECT name, class, gearLvl, dps, entityDmgDealt, nameBoss, totalDmgDealt, totalDmgTaken, cleared, tryPlayers FROM log WHERE name GLOB '*[^1-9]*' AND localPlayer GLOB '*[^1-9]*' AND difficulty = '${difficulty}' AND entityType = 'PLAYER' AND class != 'Bard' AND class != 'Paladin' AND class != 'Artist' AND (nameBoss = 'Killineza the Dark Worshipper' OR nameBoss = 'Valinak, Herald of the End' OR nameBoss = 'Valinak, Taboo Usurper' OR nameBoss = 'Valinak, Herald of the End' OR nameBoss = 'Thaemine the Lightqueller' OR nameBoss = 'Dark Greatsword')`;
@@ -171,8 +183,17 @@ function getBossName(raid, gate) {
                 return nameBoss
             }
             break;
+        case 'echidna':
+            if (gate == 1) {
+                nameBoss = "(nameBoss = 'Agris' OR nameBoss = 'Red Doom Narkiel')"
+                return nameBoss
+            } else {
+                nameBoss = "(nameBoss = 'Echidna' OR nameBoss = 'Covetous Master Echidna' OR nameBoss = 'Desire in Full Bloom, Echidna')"
+                return nameBoss
+            }
+            break;
         default:
             break;
     }
 }
-module.exports = { saveAllLogs, readLogsThaemine, readLogsVoldis, readLogsAkkan, readMaxDps, readMinDps, getTryPlayers };
+module.exports = { saveAllLogs, updatePlayerName, readLogsEchidna, readLogsThaemine, readLogsVoldis, readLogsAkkan, readMaxDps, readMinDps, getTryPlayers, readUploaders };

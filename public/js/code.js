@@ -9,6 +9,7 @@ let logTable = document.getElementById('logTable');
 var rows;
 let resultados = '';
 const form = document.getElementById('fileForm');
+let spinner = document.getElementById("spinner");
 
 form.addEventListener('submit', (event) => {
     document.getElementById('btnSubmit').hidden = true;
@@ -100,6 +101,7 @@ const mostrarTry = (rows, name) => {
     let logBody = document.getElementById('logBody');
     let clear = rows[0];
     let tryPlayers = [];
+    spinner.style.visibility = 'visible';
     rows[1].forEach(e => {
         tryPlayers.push(e);
     })
@@ -121,12 +123,16 @@ const mostrarTry = (rows, name) => {
                     <td>${player.counter}</td>
                 </tr>
                 `
-    })
+    });
+    spinner.style.visibility = 'hidden';
     logBody.innerHTML = resultados;
     debugger
 }
-
 const mostrar = (players) => {
+    debugger
+    logTable.hidden = true;
+    spinner.style.visibility = 'visible';
+    debugger
     let id = 0;
     logTable.hidden = true;
     players.sort((a, b) => b.maxDps - a.maxDps);
@@ -151,6 +157,9 @@ const mostrar = (players) => {
     searchClass.style.display = 'block';
     btns.forEach((btn) => { btn.disabled = false });
     rows = document.querySelectorAll('tbody tr');
+    debugger
+    spinner.style.visibility = 'hidden';
+    debugger
 };
 
 function formatMill(number) {

@@ -1,5 +1,5 @@
 const express = require('express');
-const { saveAllLogs, readLogsThaemine, readLogsVoldis, readLogsAkkan, readMaxDps, readMinDps, getTryPlayers } = require('./crud');
+const { saveAllLogs, updatePlayerName, readLogsThaemine, readLogsVoldis, readLogsAkkan, readMaxDps, readMinDps, getTryPlayers, readUploaders } = require('./crud');
 const multer = require('multer');
 const path = require('path');
 const cors = require('cors');
@@ -22,13 +22,29 @@ const storage = multer.diskStorage({
         callback(null, Date.now() + '-' + file.originalname)
     }
 })
-
 const upload = multer({ storage: storage, limits: { fileSize: 15000 * 1024 * 1024 } });
-
 app.get('/', (req, res) => {
     res.sendFile('index.html', { root: path.join(__dirname, 'public') })
 });
-
+app.get('/logs', (req, res) => {
+    readUploaders((err, row) => {
+        if (err) {
+            res.status(400)
+        } else {
+            res.status(200).json(row)
+        }
+    })
+});
+app.put('/rename/:newname/:oldname', (req, res) => {
+    console.log(req.params.newname + " " + req.params.oldname);
+    updatePlayerName(req.params.newname, req.params.oldname, (err) => {
+        if (err) {
+            res.status(400).send(err.message)
+        } else {
+            res.status(200).send('Uploaded')
+        }
+    })
+});
 app.post('/api', upload.single('logs'), (req, res) => {
     if (!req.file) {
         return res.status(400).send('No file included')
@@ -36,11 +52,9 @@ app.post('/api', upload.single('logs'), (req, res) => {
     saveAllLogs(req.file)
     res.status(200).send('Uploaded')
 });
-
 app.listen(port, () => {
     console.log("Server is Running on port " + port)
 });
-
 function tryPlayersCount(obj) {
 
     if (Object.hasOwn(obj, 'tryPlayers')) {
@@ -54,7 +68,6 @@ function tryPlayersCount(obj) {
         return false;
     }
 };
-
 function totalDmgDealt(percent, raid, gate, difficulty) {
     let gates;
     switch (raid) {
