@@ -183,7 +183,7 @@ fileInput.addEventListener("change", function () {
         submitButton.hidden = false;
     }
 });
-
+spinner.style.visibility = 'visible';
 fetch(url + raid + '/' + difficulty + '/' + id + '/' + dmg)
     .then(response => response.json())
     .then(data => mostrar(data))
